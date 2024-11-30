@@ -1,6 +1,8 @@
 streamlit
+streamlit-aggrid
 pymysql
 sqlalchemy
 pandas
+mysql-connector-python
 plotly
-streamlit-aggrid
+bcrypt
