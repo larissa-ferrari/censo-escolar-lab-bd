@@ -145,7 +145,7 @@ NU_ANO_CENSO int
 );
  
 SET sql_mode = "";
-load data local infile 'C:\\ProgramData\\MySQL\\\MySQL Server 8.0\\Uploads\\Docentes Rio Claro 2017.csv'
+load data infile 'C:\\ProgramData\\MySQL\\\MySQL Server 8.0\\Uploads\\Docentes Rio Claro 2017.csv'
 into table censo_escolar.docente
 fields terminated by '|'
 enclosed by '"'
@@ -324,7 +324,7 @@ NU_ANO_CENSO int
 , IN_ESP_EXCLUSIVA_PROF bool
 );
 
-load data local infile 'C:\\ProgramData\\MySQL\\\MySQL Server 8.0\\Uploads\\Escolas Rio Claro 2017.csv'
+load data infile 'C:\\ProgramData\\MySQL\\\MySQL Server 8.0\\Uploads\\Escolas Rio Claro 2017.csv'
 into table censo_escolar.escola
 fields terminated by '|'
 enclosed by '"'
@@ -425,7 +425,7 @@ NU_ANO_CENSO int
 );
 
 SET sql_mode = "";
-load data local infile 'C:\\ProgramData\\MySQL\\\MySQL Server 8.0\\Uploads\\Turmas Rio Claro 2017.csv'
+load data infile 'C:\\ProgramData\\MySQL\\\MySQL Server 8.0\\Uploads\\Turmas Rio Claro 2017.csv'
 into table censo_escolar.turma
 fields terminated by '|'
 enclosed by '"'
@@ -530,7 +530,7 @@ NU_ANO_CENSO int
 );
 
 SET sql_mode = "";
-load data local infile 'C:\\ProgramData\\MySQL\\\MySQL Server 8.0\\Uploads\\Matriculas Rio Claro 2017.csv'
+load data infile 'C:\\ProgramData\\MySQL\\\MySQL Server 8.0\\Uploads\\Matriculas Rio Claro 2017.csv'
 into table censo_escolar.matricula
 fields terminated by '|'
 enclosed by '"'
@@ -548,39 +548,13 @@ IDEB_EM float
 );
 
 SET sql_mode = "";
-load data local infile 'C:\\ProgramData\\MySQL\\\MySQL Server 8.0\\Uploads\\ideb_2017_rio claro.csv'
+load data infile 'C:\\ProgramData\\MySQL\\\MySQL Server 8.0\\Uploads\\ideb_2017_rio claro.csv'
 into table censo_escolar.ideb
 fields terminated by ';'
 enclosed by '"'
 lines terminated by '\r\n'
 ignore 1 lines
 ;
-
-/*
-Passo a passo para importar os dados:
-
-1. Baixar zip das tabelas que o professor mandou: https://drive.google.com/file/d/1Ak2XQyRueyP38a0mxAaRVauqG3Q_c7kg/view
-
-2. Executar o comando no mysql: SELECT @@global.secure_file_priv;
-Esse comando retornará uma caminho de pasta de arquivo onde as tabelas baixadas no passo 1 deve ser extraida
-
-3. Executar os arquivos (lembre-se de trocar o caminho dentro do arquivo para direcionar para a pasta criada no passo anterior):
-import table Docente
-import table Escola
-import table Matricula
-import table Turma
-*/
-
-/*
- DROP TABELAS
-
- DROP TABLE escola;
- DROP TABLE matricula;
- DROP TABLE docente;
- DROP TABLE turma;
- DROP TABLE bookmark;
- DROP TABLE usuario;
-*/
 
 CREATE TABLE usuario
 (
@@ -619,25 +593,6 @@ ALTER TABLE bookmark ADD CONSTRAINT FOREIGN KEY (id_escola) REFERENCES escola(CO
 ALTER TABLE bookmark ADD CONSTRAINT FOREIGN KEY (id_usuario) REFERENCES usuario(id);
 ALTER TABLE docente ADD CONSTRAINT FOREIGN KEY (ID_TURMA) REFERENCES turma(ID_TURMA);
 ALTER TABLE ideb ADD CONSTRAINT FOREIGN KEY (CO_ENTIDADE) REFERENCES escola(CO_ENTIDADE);
-
-/*
--- EXERCICIOS DQL
-
-Select * from censo_escolar.escola;
-
-Select CO_ENTIDADE, NO_ENTIDADE from censo_escolar.escola;
-
-Select * from censo_escolar.turma where co_entidade = 35021817;
-
-Select * from censo_escolar.matricula where in_autismo = true OR in_def_intelectual = true;
-
-Select * from censo_escolar.docente  where co_entidade = 35021817 and NU_IDADE <= 45;
-
-Select * from censo_escolar.escola where TP_SITUACAO_FUNCIONAMENTO != 1;
-
-Select distinct tp_etapa_ensino from censo_escolar.turma; -- Select tp_etapa_ensino from censo_escolar.turma group by;
-*/
-
 
 -- AULA 21/09
 CREATE VIEW Escolas_Ativas AS SELECT * FROM Escola WHERE TP_SITUACAO_FUNCIONAMENTO =1;
@@ -685,10 +640,6 @@ BEGIN
     END IF;
 END $$
 DELIMITER ;
-
-/* FAZER!!!!!
-Crie uma função que retorne quantas turmas um determinado docente dá aula (parâmetro);
-*/
 
 CREATE FUNCTION Etapa_Ensino(TP_ETAPA_ENSINO INT)
 RETURNS VARCHAR(255)
@@ -762,13 +713,8 @@ BEGIN
 END $$
 DELIMITER ;
 
-/* FAZER!!!!
-Crie 5 procedures para cada entidade nova (Usuário e Bookmark): insert, update, delete, select all, select 1 – usando
-parâmetros de entrada adequados 
-*/
-
 DELIMITER $$
-CREATE TRIGGER Verificar_Vamanho_Venha
+CREATE TRIGGER Verificar_Tamanho_Senha
 BEFORE INSERT ON usuario
 FOR EACH ROW
 BEGIN
