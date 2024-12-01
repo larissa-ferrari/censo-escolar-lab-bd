@@ -27,11 +27,18 @@ def get_all_bookmarks(filters=None):
     connection = get_connection()
     try:
         with connection.cursor(dictionary=True) as cursor:
-            query = "SELECT * FROM bookmark"
+            query = """
+                SELECT 
+                    bookmark.*,
+                    escola.NO_ENTIDADE AS escola_nome
+                FROM 
+                    bookmark
+                LEFT JOIN 
+                    escola ON bookmark.id_escola = escola.CO_ENTIDADE
+            """
 
             values = []
 
-            # Adiciona filtros, se fornecidos
             if filters:
                 where_clauses = []
                 for column, value in filters.items():
@@ -45,6 +52,7 @@ def get_all_bookmarks(filters=None):
             return cursor.fetchall()
     finally:
         connection.close()
+
 
 # Função DELETE (Excluir bookmark)
 def delete_bookmark(bookmark_id):
