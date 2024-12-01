@@ -31,7 +31,7 @@ else:
     select_bookmark = st.selectbox(
         "Selecione um usuário para alterar",
         options=df.itertuples(index=False),
-        format_func=lambda u: f"{u.NO_ENTIDADE}"  
+        format_func=lambda u: f"{u[1]}"
     )
 
     if select_bookmark:
