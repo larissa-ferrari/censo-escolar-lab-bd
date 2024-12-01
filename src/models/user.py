@@ -1,94 +1,87 @@
-
 import hashlib
-from core.connection import get_connection
-
+from src.core.connection import get_connection
 
 # Função CREATE (Inserir usuário)
 def create_user(name, email, password, is_adm, birthday):
     hashed_password = hash_password(password)
-    conn = get_connection()
-    cursor = conn.cursor()
-    query = "INSERT INTO usuario (nome, email, senha, administrador, data_nascimento) VALUES (%s, %s, %s, %s, %s)"
-    cursor.execute(query, (name, email, hashed_password, is_adm, birthday))
-    conn.commit()
-    cursor.close()
-    conn.close()
+    connection = get_connection()
+    try:
+        with connection.cursor() as cursor:
+            query = """
+                INSERT INTO usuario (nome, email, senha, administrador, data_nascimento)
+                VALUES (%s, %s, %s, %s, %s)
+            """
+            cursor.execute(
+                query, (name, email, hashed_password, is_adm, birthday))
+            connection.commit()
+    finally:
+        connection.close()
 
 # Função READ (Buscar usuário por ID)
 def get_user_by_id(user_id):
-    conn = get_connection()
-    cursor = conn.cursor(dictionary=True)
-    query = "SELECT * FROM usuario WHERE id = %s"
-    cursor.execute(query, (user_id,))
-    user = cursor.fetchone()
-    cursor.close()
-    conn.close()
-    return user
+    connection = get_connection()
+    try:
+        with connection.cursor(dictionary=True) as cursor:
+            query = "SELECT * FROM usuario WHERE id = %s"
+            cursor.execute(query, (user_id,))
+            return cursor.fetchone()
+    finally:
+        connection.close()
 
 # Função READ (Listar todos os usuários)
 def get_all_users():
-    conn = get_connection()
-    cursor = conn.cursor(dictionary=True)
-    query = "SELECT * FROM usuario"
-    cursor.execute(query)
-    users = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    return users
+    connection = get_connection()
+    try:
+        with connection.cursor(dictionary=True) as cursor:
+            query = "SELECT * FROM usuario"
+            cursor.execute(query)
+            return cursor.fetchall()
+    finally:
+        connection.close()
 
 # Função UPDATE (Atualizar usuário)
-def update_user(user_id, name, email, password=None, birthday=None, is_adm=False):
-    conn = get_connection()
-    cursor = conn.cursor()
+def update_user(user_id, name, email, password=None, birthday=None, is_adm=None):
+    connection = get_connection()
+    try:
+        with connection.cursor() as cursor:
+            # Monta a query dinamicamente
+            set_clauses = ["nome = %s", "email = %s"]
+            values = [name, email]
 
-    # Definir os campos a serem atualizados
-    fields = []
-    values = []
-    
-    # Atualiza o nome e o email
-    query = "UPDATE usuario SET nome = %s, email = %s"
-    fields.append("nome")
-    fields.append("email")
-    values.extend([name, email])
+            if password:
+                hashed_password = hash_password(password)
+                set_clauses.append("senha = %s")
+                values.append(hashed_password)
 
-    # Se a senha for fornecida, inclui no UPDATE
-    if password:
-        hashed_password = hash_password(password)
-        query += ", senha = %s"
-        fields.append("senha")
-        values.append(hashed_password)
-    
-    # Se a data de nascimento for fornecida, inclui no UPDATE
-    if birthday:
-        query += ", data_nascimento = %s"
-        fields.append("data_nascimento")
-        values.append(birthday)
+            if birthday:
+                set_clauses.append("data_nascimento = %s")
+                values.append(birthday)
 
-    # Caso o administrador seja fornecido
-    if is_adm is not None:
-        query += ", administrador = %s"
-        fields.append("administrador")
-        values.append(is_adm)
+            if is_adm is not None:
+                set_clauses.append("administrador = %s")
+                values.append(is_adm)
 
-    # Adiciona o filtro de ID
-    query += " WHERE id = %s"
-    values.append(user_id)
+            # Adiciona o WHERE
+            set_query = ", ".join(set_clauses)
+            query = f"UPDATE usuario SET {set_query} WHERE id = %s"
+            values.append(user_id)
 
-    # Executa o comando de atualização
-    cursor.execute(query, tuple(values))
-    conn.commit()
-    cursor.close()
-    conn.close()
+            # Executa a query
+            cursor.execute(query, tuple(values))
+            connection.commit()
+    finally:
+        connection.close()
 
 # Função DELETE (Excluir usuário)
 def delete_user(user_id):
-    conn = get_connection()
-    cursor = conn.cursor()
-    query = "DELETE FROM usuario WHERE id = %s"
-    cursor.execute(query, (user_id,))
-    conn.commit()
-    cursor.close()
-    conn.close()
+    connection = get_connection()
+    try:
+        with connection.cursor() as cursor:
+            query = "DELETE FROM usuario WHERE id = %s"
+            cursor.execute(query, (user_id,))
+            connection.commit()
+    finally:
+        connection.close()
 
 # Função para buscar usuário no banco
 def get_user_by_email(email):
@@ -101,7 +94,7 @@ def get_user_by_email(email):
     finally:
         connection.close()
 
-# Função para criar hash SHA-1
+# Função para criar hash SHA-1s
 def hash_password(password):
     sha1_hash = hashlib.sha1()
     sha1_hash.update(password.encode('utf-8'))
@@ -111,6 +104,6 @@ def hash_password(password):
 def check_password(password, stored_hash):
     # Cria o hash da senha fornecida
     password_hash = hash_password(password)
-    
+
     # Compara o hash gerado com o hash armazenado
     return password_hash == stored_hash

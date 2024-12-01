@@ -1,5 +1,5 @@
 import streamlit as st
-from controllers.user import authenticate_user, get_user
+from src.controllers.user import authenticate_user, get_user
 
 # Tela de login
 def login_view():

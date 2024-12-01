@@ -1,4 +1,4 @@
-from core.connection import get_connection
+from src.core.connection import get_connection
 import pandas as pd
 
 # Função para buscar dados de escolas

@@ -1,6 +1,6 @@
 import streamlit as st
 import plotly.express as px
-from controllers.dashboards import (
+from src.controllers.dashboards import (
     process_schools_data,
     process_turmas_data,
     process_docentes_data,

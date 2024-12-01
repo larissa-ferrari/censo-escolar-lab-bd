@@ -1,4 +1,4 @@
-from models.dashboards import get_schools_data, get_turmas_data, get_docentes_data, get_schools_geolocation
+from src.models.dashboards import get_schools_data, get_turmas_data, get_docentes_data, get_schools_geolocation
 
 # Função para preparar os dados das escolas
 def process_schools_data():
