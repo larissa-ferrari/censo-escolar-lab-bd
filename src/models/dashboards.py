@@ -35,15 +35,3 @@ def get_docentes_data():
     df = pd.read_sql(query, conn)
     conn.close()
     return df
-
-# Função para buscar geolocalização (mapa das escolas)
-def get_schools_geolocation():
-    conn = get_connection()
-    query = """
-        SELECT CO_ENTIDADE, NO_ENTIDADE, CO_UF, CO_MUNICIPIO 
-        FROM escola
-        WHERE CO_UF IS NOT NULL AND CO_MUNICIPIO IS NOT NULL;
-    """
-    df = pd.read_sql(query, conn)
-    conn.close()
-    return df

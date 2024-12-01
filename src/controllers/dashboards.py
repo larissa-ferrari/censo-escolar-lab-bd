@@ -1,4 +1,4 @@
-from src.models.dashboards import get_schools_data, get_turmas_data, get_docentes_data, get_schools_geolocation
+from src.models.dashboards import get_schools_data, get_turmas_data, get_docentes_data
 
 # Função para preparar os dados das escolas
 def process_schools_data():
@@ -6,7 +6,8 @@ def process_schools_data():
     df['TP_SITUACAO_FUNCIONAMENTO'] = df['TP_SITUACAO_FUNCIONAMENTO'].map({
         1: 'Ativa', 
         2: 'Paralisada', 
-        3: 'Extinta'
+        3: 'Extinta',
+        4: 'Extinta em Anos Anteriores'
     })
     return df
 
@@ -28,12 +29,4 @@ def process_docentes_data():
         2: 'Coordenador Pedagógico',
         3: 'Supervisor Escolar'
     })
-    return df
-
-# Função para preparar a geolocalização
-def process_schools_geolocation():
-    df = get_schools_geolocation()
-    # Simular geolocalização (real seria obtida de APIs externas)
-    df['LAT'] = df['CO_UF'].apply(lambda x: -14.235004)  # Exemplo de latitude
-    df['LNG'] = df['CO_MUNICIPIO'].apply(lambda x: -51.92528)  # Exemplo de longitude
     return df
