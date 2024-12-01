@@ -3,7 +3,7 @@ CREATE DATABASE censo_escolar;
 
 use censo_escolar;
 
-create table docente (
+create table docentes (
     NU_ANO_CENSO int,
     CO_PESSOA_FISICA bigint,
     NU_DIA int,
@@ -33,7 +33,7 @@ create table docente (
     TP_NORMAL_MAGISTERIO int,
     TP_SITUACAO_CURSO_1 int,
     CO_AREA_CURSO_1 int,
-    CO_CURSO_1 int,
+    CO_CURSO_1 varchar(255),
     IN_LICENCIATURA_1 bool,
     IN_COM_PEDAGOGICA_1 bool,
     NU_ANO_INICIO_1 int,
@@ -42,7 +42,7 @@ create table docente (
     CO_IES_1 int,
     TP_SITUACAO_CURSO_2 int,
     CO_AREA_CURSO_2 int,
-    CO_CURSO_2 int,
+    CO_CURSO_2 varchar(255),
     IN_LICENCIATURA_2 bool,
     IN_COM_PEDAGOGICA_2 bool,
     NU_ANO_INICIO_2 int,
@@ -51,7 +51,7 @@ create table docente (
     CO_IES_2 int,
     TP_SITUACAO_CURSO_3 int,
     CO_AREA_CURSO_3 int,
-    CO_CURSO_3 int,
+    CO_CURSO_3 varchar(255),
     IN_LICENCIATURA_3 bool,
     IN_COM_PEDAGOGICA_3 bool,
     NU_ANO_INICIO_3 int,
@@ -552,7 +552,7 @@ ADD
     CONSTRAINT PRIMARY KEY (ID_TURMA);
 
 ALTER TABLE
-    docente
+    docentes
 ADD
     CONSTRAINT PRIMARY KEY (CO_PESSOA_FISICA, ID_TURMA);
 
@@ -578,7 +578,7 @@ ADD
     CONSTRAINT FOREIGN KEY (id_usuario) REFERENCES usuario(id);
 
 ALTER TABLE
-    docente
+    docentes
 ADD
     CONSTRAINT FOREIGN KEY (ID_TURMA) REFERENCES turma(ID_TURMA);
 
@@ -625,7 +625,7 @@ SELECT
     NU_IDADE_REFERENCIA,
     TP_SEXO
 FROM
-    docente;
+    docentes;
 
 CREATE VIEW Num_Professores_Escolas_Ativas AS
 SELECT
@@ -642,7 +642,7 @@ SELECT
     COUNT(DISTINCT d.CO_PESSOA_FISICA) AS TOTAL_DOCENTES
 FROM
     escola e
-    JOIN docente d ON d.CO_ENTIDADE = e.CO_ENTIDADE
+    JOIN docentes d ON d.CO_ENTIDADE = e.CO_ENTIDADE
 WHERE
     TP_SITUACAO_FUNCIONAMENTO = 1;
 

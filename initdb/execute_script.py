@@ -5,8 +5,8 @@ import pymysql
 db_config = {
     'host': 'localhost',
     'user': 'root',
-    'password': '',
-    'database': 'censo_escolar',
+    'password': 'root',
+    'database': 'censo_escolar_3',
     'port': 3306,
 }
 
@@ -53,8 +53,8 @@ def load_excel_to_db(file_path, table_name, sep=";"):
 # Arquivos e tabelas a serem processados
 files_and_tables = [
     {"file_path": "escolas.csv", "table_name": "escola"},
-    {"file_path": "docentes.csv", "table_name": "docente"},
-    {"file_path": "turmas.csv", "table_name": "turma"},
+    {"file_path": "turmas.csv", "table_name": "turma"}, 
+    {"file_path": "docentes.csv", "table_name": "docentes"},
     {"file_path": "matriculas.csv", "table_name": "matricula"},
     {"file_path": "ideb.csv", "table_name": "ideb", "separator": ";"},
 ]
