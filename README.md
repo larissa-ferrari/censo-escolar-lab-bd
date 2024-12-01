@@ -1,31 +1,45 @@
 <a id="readme-top"></a>
 
 <div align="center">
-  <h1 align="center">Chest X-Ray Classification Using KMeans and U2Net</h1>
+  <h1 align="center">Aplicação Web - Visualização das Escolas de Rio Claro</h1>
 </div>
 
 <!-- TABLE OF CONTENTS -->
 <details>
-  <summary>Table of Contents</summary>
+  <summary>Sumário</summary>
   <ol>
     <li>
-      <a href="#about-the-project">Sobre o Projeto</a>
-      <ul>
-        <li><a href="#built-with">Tecnologias</a></li>
-      </ul>
+      <a href="#about-project">Sobre o Projeto</a>
+        <ul><li><a href="#about-project_architecture">Arquitetura</a></li></ul>
+        <ul><li><a href="#about-project_technologies">Tecnologias</a></li></ul>
     </li>
     <li>
       <a href="#modules-features">Módulos e Funcionalidades</a>
+        <ul><li><a href="#modules-features_users">Usuários</a></li></ul>
+        <ul><li><a href="#modules-features_schools">Escolas</a></li></ul>
+        <ul><li><a href="#modules-features_bookmarks">Bookmarks</a></li></ul>
+        <ul><li><a href="#modules-features_dashboards">Dashboards</a></li></ul>
     </li>
     <li>
-      <a href="#getting-started">Como Rodar</a>
+      <a href="#how-to">Como Utilizar</a>
+        <ul><li><a href="#how-to_local">Rodar Localmente</a></li></ul>
+        <ul>
+          <li><a href="#how-to_platform">Plataforma</a></li>
+          <ul><li><a href="#how-to_platform__dashboards">Dashboards</a></li></ul>
+          <ul><li><a href="#how-to_platform__users">Usuários</a></li></ul>
+          <ul><li><a href="#how-to_platform__bookmarks">Bookmarks</a></li></ul>
+          <ul><li><a href="#how-to_platform__schools">Escolas</a></li></ul>
+          <ul><li><a href="#how-to_platform__logout">Logout</a></li></ul>
+        </ul>
     </li>
     <li><a href="#contributors">Contribuidores</a></li>
-    <li><a href="#contact">Contatos</a></li>
+    <li><a href="#contacts">Contatos</a></li>
   </ol>
 </details>
 
 <!-- ABOUT THE PROJECT -->
+<a id="about-project"></a>
+
 ## Sobre o Projeto
 
 Este projeto foi desenvolvido durante a disciplina de Laboratório de Banco de Dados na UNESP e consiste em uma aplicação web voltada para a expansão e análise de um banco de dados das escolas do município de Rio Claro. O foco está na aplicação de técnicas de modelagem de banco de dados, utilizando diagramas entidade-relacionamento (DER), implementação de consultas e manipulação de dados em SQL, implementação do banco de dados em nuvem, aplicação web, além de outras práticas essenciais para o desenvolvimento de aplicações baseadas em banco de dados.
@@ -35,6 +49,7 @@ A aplicação pode ser acessada pelos dados abaixo:
 - Login: root@root.com
 - Senha: 1234
 
+<a id="about-project_architecture"></a>
 
 ### Arquitetura
 
@@ -53,6 +68,8 @@ Os controladores essão representados pelos arquivos dentro de `src/controllers`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<a id="about-project_technologies"></a>
+
 ### Tecnologias
 
 - [![Next][Python]][Python-url]
@@ -64,7 +81,11 @@ Os controladores essão representados pelos arquivos dentro de `src/controllers`
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MODULES AND FEATURES -->
+<a id="modules-features"></a>
+
 ## Módulos e Funcionalidades
+
+<a id="modules-features_users"></a>
 
 ### Usuários
 - **Cadastrar Usuário:** Funcionalidade para criar novos usuários, que pode incluir ou não a flag de administrador (is_adm). A criação de usuários está definida tanto no controlador quanto no modelo, utilizando hashing de senha para garantir segurança.
@@ -87,11 +108,15 @@ Os controladores essão representados pelos arquivos dentro de `src/controllers`
     - Pode criar e gerenciar bookmarks para escolas, listar escolas e visualizar dashboards.
     - Possui acesso restrito às funcionalidades de administração de usuários.
 
+<a id="modules-features_schools"></a>
+
 ### Escolas
 
 - **Listar Escolas:** Listagem de todas as escolas cadastradas, podendo utilizar filtros conforme necessidade.
 
 - **Buscar Escola por ID:** Busca de informações detalhadas de uma escola específica.
+
+<a id="modules-features_bookmarks"></a>
 
 ### Bookmarks
 
@@ -103,12 +128,34 @@ Os controladores essão representados pelos arquivos dentro de `src/controllers`
 
 - **Excluir Bookmark:** Função para remover um bookmark.
 
+<a id="modules-features_dashboards"></a>
+
 ### Dashboards
 
-explicar os dashs presentes
+- **Escolas da Cidade:** Listagem das escolas da cidade, com os seguintes atributos:
+  - Nome;
+  - Status de funcionamento;
+  - Município;
+  - Localização;
+  - Dependência;
+  - Níveis atendidos;
+
+- **Visão da Escola:** Mostrar total de alunos, professores e turmas por escola.
+  - É possível ordenar as escolas pelo número de alunos, professores ou turmas.
+
+- **Visão de Turmas:** Selecionando uma escola, é listado todas as turmas, mostrando o nome e disciplina referente à turma.
+
+- **Professores e Alunos da Escola:** Selecionando a escola, é listado os professores e alunos pertencentes à escola selecionada
+
+- **Alunos por Etapa de Ensino:** Listagem da quantidade de alunos pertencentes a cada etapa de ensino, mostrando o código da pessoa e o tipo (aluno ou docente).
 
 <!-- GETTING STARTED -->
+
+<a id="how-to"></a>
+
 ## Como Utilizar
+
+<a id="how-to_local"></a>
 
 ### Rodar Localmente
 - Clonar o repositório na máquina local
@@ -130,24 +177,37 @@ explicar os dashs presentes
 - Inicialize a aplicação com o comando `streamlit run app.py`
 - Acesse com as credenciais cadastradas no banco
 
+<a id="how-to_platform"></a>
+
 ### Plataforma
 
 Após efetuar o login na plataforma na página inicial, o usuário será redirecionado para a tela principal da aplicação, onde terá acesso à um menu lateral com diversas opções para o usuário utilizar a plataforma.
+
+<a id="how-to_platform__dashboards"></a>
+
 #### Dashboard
 - Página com a visualização dos gráficos mais importantes da aplicação
+
+<a id="how-to_platform__users"></a>
 
 #### Usuários
 - Listagem dos usuários cadastrados
 - Cadastro e remoção dos usuários
 - Alterar os dados dos usuários cadastrados
 
+<a id="how-to_platform__bookmarks"></a>
+
 #### Bookmarks
 - Listagem dos bookmarks cadastrados
 - Remoção dos usuários
 - Cadastro de novos bookmarks
 
+<a id="how-to_platform__schools"></a>
+
 #### Escolas
 - Listagem das escolas cadastradas
+
+<a id="how-to_platform__logout"></a>
 
 #### Logout
 Permite o usuário deslogar da aplicação
@@ -155,6 +215,9 @@ Permite o usuário deslogar da aplicação
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
+
+<a id="contributors"></a>
+
 ## Contribuidores
 
 <a href="https://github.com/larissa-ferrari/censo-escolar-lab-bd/graphs/contributors">
@@ -162,6 +225,8 @@ Permite o usuário deslogar da aplicação
 </a>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<a id="contacts"></a>
 
 <!-- CONTACT -->
 ## Contatos
