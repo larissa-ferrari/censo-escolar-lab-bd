@@ -3,12 +3,8 @@ import plotly.express as px
 from src.controllers.dashboards import (
     process_schools_data,
     process_turmas_data,
-    process_docentes_data,
-    process_schools_geolocation
+    process_docentes_data
 )
-import folium
-from folium.plugins import MarkerCluster
-
 
 st.title("Dashboard Educacional")
 
@@ -17,13 +13,13 @@ with st.spinner("Carregando Dados..."):
     schools_data = process_schools_data()
     turmas_data = process_turmas_data()
     docentes_data = process_docentes_data()
-    geolocation_data = process_schools_geolocation()
 
 # Definindo cores específicas para as categorias
 situacao_cores = {
     'Ativa': 'green',
     'Paralisada': 'orange',
-    'Extinta': 'red'
+    'Extinta': 'red',
+    'Extinta em Anos Anteriores': 'blue'
 }
 etapa_cores = {
     'Educação Infantil': 'blue',
@@ -76,9 +72,10 @@ with col1:
         schools_data_filtrado,
         names='TP_SITUACAO_FUNCIONAMENTO',
         title="Distribuição de Escolas por Situação",
-        color='TP_SITUACAO_FUNCIONAMENTO',
-        color_discrete_map=situacao_cores
+        color='TP_SITUACAO_FUNCIONAMENTO',        
+        color_discrete_map=situacao_cores,
     )
+    fig1.update_traces(hovertemplate='%{label}: %{percent} (%{value})')
     st.plotly_chart(fig1, use_container_width=True)
 
 # Gráfico: Turmas por Etapa de Ensino
@@ -90,11 +87,12 @@ with col2:
         y='TOTAL_TURMAS',
         title="Turmas por Etapa de Ensino",
         color='TP_ETAPA_ENSINO',
-        color_discrete_map=etapa_cores
-    )
+        color_discrete_map=etapa_cores,
+        labels={'TP_ETAPA_ENSINO': 'Etapa de Ensino', 'TOTAL_TURMAS': 'Total de Turmas'}
+    )    
     st.plotly_chart(fig2, use_container_width=True)
 
-# Gráfico: Docentes por Função e Mapa de Geolocalização
+# Gráfico: Docentes por Função
 col3, col4 = st.columns(2)
 with col3:
     st.subheader("Docentes por Função")
@@ -104,44 +102,20 @@ with col3:
         y='TOTAL_DOCENTES',
         title="Docentes por Função",
         color='TP_TIPO_DOCENTE',
-        color_discrete_map=docente_cores
+        color_discrete_map=docente_cores,
+        labels={'TP_TIPO_DOCENTE': 'Tipo do Docente', 'TOTAL_DOCENTES': 'Total de Docentes'}
     )
     st.plotly_chart(fig3, use_container_width=True)
 
-# Mapa de Geolocalização na Coluna Direita
-with col4:
-    st.subheader("Mapa de Geolocalização das Escolas")
-    st.text("Informações coletadas do dataset adicional fornecido no classroom")
-
-    # Criando o mapa inicial (usando coordenadas médias do Brasil)
-    mapa = folium.Map(location=[-14.235004, -51.92528], zoom_start=4)
-
-    # Adicionando os pontos ao mapa usando MarkerCluster
-    marker_cluster = MarkerCluster().add_to(mapa)
-
-    # Iterando pelos dados e adicionando marcadores
-    for _, row in geolocation_data.iterrows():
-        folium.Marker(
-            location=[row['LAT'], row['LNG']],
-            popup=f"{row['NO_ENTIDADE']} ({row['LAT']}, {row['LNG']})"
-        ).add_to(marker_cluster)
-
-    # Exibindo o mapa no Streamlit
-    st.components.v1.html(mapa._repr_html_(), height=500)
-
 # Tabela de Dados
 st.markdown("### Dados das Escolas")
+schools_data_filtrado.rename(columns={
+    'CO_ENTIDADE': 'Código da Escola',
+    'NO_ENTIDADE': 'Nome da Escola',
+    'CO_UF': 'Código da UF',
+    'CO_MUNICIPIO': 'Código do Município',
+    'TP_SITUACAO_FUNCIONAMENTO': 'Situação de Funcionamento'
+}, inplace=True)
+
+# Exibe o DataFrame com os novos nomes das colunas
 st.dataframe(schools_data_filtrado, use_container_width=True)
-
-# Análise Profunda
-st.markdown("## Análise Profunda")
-st.write("Gráficos detalhados baseados nos dados filtrados.")
-
-# Gráfico Evolução (Exemplo com dummy data)
-fig5 = px.line(
-    turmas_data_filtrado,
-    x='TP_ETAPA_ENSINO',
-    y='TOTAL_TURMAS',
-    title="Evolução de Turmas por Etapa de Ensino",
-)
-st.plotly_chart(fig5, use_container_width=True)

@@ -516,6 +516,7 @@ CREATE TABLE bookmark (
     id INT AUTO_INCREMENT,
     id_usuario INT,
     id_escola INT,
+    adicionado BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (id)
 );
 

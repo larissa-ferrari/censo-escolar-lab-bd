@@ -17,7 +17,7 @@ if df.empty:
 else:
     df = df.rename(columns={
         "NO_ENTIDADE": "Escola",
-        "CO_ENTIDADE": "Número x", # TODO: Validar here
+        "CO_ENTIDADE": "Código",
         "DT_ANO_LETIVO_INICIO": "Inicio Ano Letivo",
         "DT_ANO_LETIVO_TERMINO": "Fim Ano Letivo"
     })
