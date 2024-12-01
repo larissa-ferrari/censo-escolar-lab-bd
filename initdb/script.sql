@@ -145,7 +145,7 @@ NU_ANO_CENSO int
 );
  
 SET sql_mode = "";
-load data infile 'C:\\Users\\allan\\Downloads\\censo-escolarDocentes Rio Claro 2017.csv'
+load data infile 'C:\\Users\\larissa\\Downloads\\censo-escolarDocentes Rio Claro 2017.csv'
 into table freedb_teste_teste.docente
 fields terminated by '|'
 enclosed by '"'
@@ -324,7 +324,7 @@ NU_ANO_CENSO int
 , IN_ESP_EXCLUSIVA_PROF bool
 );
 
-load data infile 'C:\\Users\\allan\\Downloads\\censo-escolarEscolas Rio Claro 2017.csv'
+load data infile 'C:\\Users\\larissa\\Downloads\\censo-escolarEscolas Rio Claro 2017.csv'
 into table freedb_teste_teste.escola
 fields terminated by '|'
 enclosed by '"'
@@ -425,7 +425,7 @@ NU_ANO_CENSO int
 );
 
 SET sql_mode = "";
-load data infile 'C:\\Users\\allan\\Downloads\\censo-escolarTurmas Rio Claro 2017.csv'
+load data infile 'C:\\Users\\larissa\\Downloads\\censo-escolarTurmas Rio Claro 2017.csv'
 into table freedb_teste_teste.turma
 fields terminated by '|'
 enclosed by '"'
@@ -530,7 +530,7 @@ NU_ANO_CENSO int
 );
 
 SET sql_mode = "";
-load data infile 'C:\\Users\\allan\\Downloads\\censo-escolarMatriculas Rio Claro 2017.csv'
+load data infile 'C:\\Users\\larissa\\Downloads\\censo-escolarMatriculas Rio Claro 2017.csv'
 into table freedb_teste_teste.matricula
 fields terminated by '|'
 enclosed by '"'
@@ -548,7 +548,7 @@ IDEB_EM float
 );
 
 SET sql_mode = "";
-load data infile 'C:\\Users\\allan\\Downloads\\censo-escolarideb_2017_rio claro.csv'
+load data infile 'C:\\Users\\larissa\\Downloads\\censo-escolarideb_2017_rio claro.csv'
 into table freedb_teste_teste.ideb
 fields terminated by '|'
 enclosed by '"'
