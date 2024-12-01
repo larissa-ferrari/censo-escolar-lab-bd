@@ -61,11 +61,9 @@ def get_school_by_city(city):
                 e.CO_ENTIDADE, e.NO_ENTIDADE, e.TP_SITUACAO_FUNCIONAMENTO, 
                 e.CO_MUNICIPIO, e.TP_LOCALIZACAO, e.TP_DEPENDENCIA
             """
-            # Obtém o valor do filtro 'CO_MUNICIPIO'
-            values = [filters["CO_MUNICIPIO"]]
 
             # Executa a query
-            cursor.execute(query, tuple(values))
+            cursor.execute(query, (city,))
             return cursor.fetchall()
     finally:
         connection.close()
