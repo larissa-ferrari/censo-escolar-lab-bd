@@ -516,7 +516,6 @@ CREATE TABLE bookmark (
     id INT AUTO_INCREMENT,
     id_usuario INT,
     id_escola INT,
-    adicionado BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (id)
 );
 
@@ -571,23 +570,12 @@ ADD
 ALTER TABLE
     bookmark
 ADD
-
     CONSTRAINT FOREIGN KEY (id_escola) REFERENCES escola(CO_ENTIDADE);
 
 ALTER TABLE
     bookmark
 ADD
     CONSTRAINT FOREIGN KEY (id_usuario) REFERENCES usuario(id);
-
-ALTER TABLE
-    bookmark
-ADD 
-    COLUMN adicionado BOOLEAN DEFAULT FALSE;
-
-UPDATE
-    bookmark
-SET
-    adicionado = TRUE;
 
 ALTER TABLE
     docente
