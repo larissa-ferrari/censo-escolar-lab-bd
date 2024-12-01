@@ -41,24 +41,31 @@ def get_schools_dashboard():
     try:
         with connection.cursor(dictionary=True) as cursor:
             query = """
-            SELECT 
-                e.CO_ENTIDADE,
-                e.NO_ENTIDADE,
-                e.TP_SITUACAO_FUNCIONAMENTO,
-                e.CO_MUNICIPIO,
-                e.TP_LOCALIZACAO,
-                e.TP_DEPENDENCIA,
-                STRING_AGG(DISTINCT Etapa_Ensino(t.TP_ETAPA_ENSINO), ', ') AS Níveis_Atendidos
-            FROM 
-                escola e
-            LEFT JOIN 
-                turma t
-            ON 
-                e.CO_ENTIDADE = t.CO_ENTIDADE
+                SELECT 
+                    e.CO_ENTIDADE, 
+                    e.NO_ENTIDADE,
+                    e.TP_SITUACAO_FUNCIONAMENTO,
+                    e.CO_MUNICIPIO,
+                    e.TP_LOCALIZACAO,
+                    e.TP_DEPENDENCIA,
+                    GROUP_CONCAT(DISTINCT Etapa_Ensino(t.TP_ETAPA_ENSINO) SEPARATOR ', ') AS Níveis_Atendidos
+                FROM 
+                    escola e
+                LEFT JOIN 
+                    turma t
+                ON 
+                    e.CO_ENTIDADE = t.CO_ENTIDADE
+                GROUP BY 
+                    e.CO_ENTIDADE, 
+                    e.NO_ENTIDADE,
+                    e.TP_SITUACAO_FUNCIONAMENTO,
+                    e.CO_MUNICIPIO,
+                    e.TP_LOCALIZACAO,
+                    e.TP_DEPENDENCIA;
             """
 
             # Executa a query
-            cursor.execute(query)
+            cursor.execute(query,)
             return cursor.fetchall()
     finally:
         connection.close()
