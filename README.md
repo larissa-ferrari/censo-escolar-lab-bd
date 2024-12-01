@@ -231,6 +231,8 @@ Permite o usuário deslogar da aplicação
 
 <!-- CONTRIBUTING -->
 
+<a id="contributors"></a>
+
 ## Contribuidores
 
 <a href="https://github.com/larissa-ferrari/censo-escolar-lab-bd/graphs/contributors">
@@ -240,6 +242,8 @@ Permite o usuário deslogar da aplicação
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTACT -->
+
+<a id="contacts"></a>
 
 ## Contatos
 
@@ -253,7 +257,7 @@ Larissa Ferrari <br>
 [![LinkedIn][linkedin]][larissa-linkedin-url]
 
 Murilo Venturato <br>
-[![LinkedIn][linkedin-shield]][murilo-linkedin-url]
+[![LinkedIn][linkedin]][murilo-linkedin-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
