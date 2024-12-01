@@ -1,12 +1,12 @@
 -- Versionamento 2024.10
 
--- CREATE DATABASE freedb_teste_teste;
+CREATE DATABASE censo_escolar;
 
-use freedb_teste_teste;
+use censo_escolar;
 
--- SELECT @@global.secure_file_priv;
+SELECT @@global.secure_file_priv;
 
-use freedb_teste_teste;
+use censo_escolar;
 
 create table docente
 (
@@ -143,16 +143,6 @@ NU_ANO_CENSO int
 , TP_LOCALIZACAO_DIFERENCIADA int
 , IN_EDUCACAO_INDIGENA bool
 );
- 
-SET sql_mode = "";
-load data infile 'C:\\Users\\allan\\Downloads\\censo-escolarDocentes Rio Claro 2017.csv'
-into table freedb_teste_teste.docente
-fields terminated by '|'
-enclosed by '"'
-lines terminated by '\r\n'
-ignore 1 lines
-;
-
 
 create table escola
 (
@@ -324,14 +314,6 @@ NU_ANO_CENSO int
 , IN_ESP_EXCLUSIVA_PROF bool
 );
 
-load data infile 'C:\\Users\\allan\\Downloads\\censo-escolarEscolas Rio Claro 2017.csv'
-into table freedb_teste_teste.escola
-fields terminated by '|'
-enclosed by '"'
-lines terminated by '\r\n'
-ignore 1 lines
-;
-
 create table turma
 (
 NU_ANO_CENSO int
@@ -424,20 +406,11 @@ NU_ANO_CENSO int
 , IN_EDUCACAO_INDIGENA bool
 );
 
-SET sql_mode = "";
-load data infile 'C:\\Users\\allan\\Downloads\\censo-escolarTurmas Rio Claro 2017.csv'
-into table freedb_teste_teste.turma
-fields terminated by '|'
-enclosed by '"'
-lines terminated by '\r\n'
-ignore 1 lines
-;
-
 create table matricula
 (
 NU_ANO_CENSO int
 , ID_MATRICULA bigint
-, CO_PESSOA_FISICA varchar(12)
+, CO_PESSOA_FISICA bigint
 , NU_DIA int
 , NU_MES int
 , NU_ANO int
@@ -529,15 +502,6 @@ NU_ANO_CENSO int
 , IN_EDUCACAO_INDIGENA bool
 );
 
-SET sql_mode = "";
-load data infile 'C:\\Users\\allan\\Downloads\\censo-escolarMatriculas Rio Claro 2017.csv'
-into table freedb_teste_teste.matricula
-fields terminated by '|'
-enclosed by '"'
-lines terminated by '\r\n'
-ignore 1 lines
-;
-
 CREATE TABLE ideb(
 CO_ENTIDADE int,
 DEPENDENCIA_ID int,
@@ -546,41 +510,6 @@ IDEB_AI float,
 IDEB_AF float,
 IDEB_EM float
 );
-
-SET sql_mode = "";
-load data infile 'C:\\Users\\allan\\Downloads\\censo-escolarideb_2017_rio claro.csv'
-into table freedb_teste_teste.ideb
-fields terminated by '|'
-enclosed by '"'
-lines terminated by '\r\n'
-ignore 1 lines
-;
-
-/*
-Passo a passo para importar os dados:
-
-1. Baixar zip das tabelas que o professor mandou: https://drive.google.com/file/d/1Ak2XQyRueyP38a0mxAaRVauqG3Q_c7kg/view
-
-2. Executar o comando no mysql: SELECT @@global.secure_file_priv;
-Esse comando retornará uma caminho de pasta de arquivo onde as tabelas baixadas no passo 1 deve ser extraida
-
-3. Executar os arquivos (lembre-se de trocar o caminho dentro do arquivo para direcionar para a pasta criada no passo anterior):
-import table Docente
-import table Escola
-import table Matricula
-import table Turma
-*/
-
-/*
- DROP TABELAS
-
- DROP TABLE escola;
- DROP TABLE matricula;
- DROP TABLE docente;
- DROP TABLE turma;
- DROP TABLE bookmark;
- DROP TABLE usuario;
-*/
 
 CREATE TABLE usuario
 (
@@ -603,10 +532,10 @@ CREATE TABLE bookmark (
 -- ADD CONSTRAINT
 ALTER TABLE usuario ADD CONSTRAINT UNIQUE (EMAIL);
 ALTER TABLE usuario MODIFY COLUMN id INT AUTO_INCREMENT;
-ALTER TABLE usuario MODIFY COLUMN NOME VARCHAR(255) NOT NULL;
+ALTER TABLE usuario MODIFY COLUMN nome VARCHAR(255) NOT NULL;
+ALTER TABLE usuario ADD COLUMN administrador BOOLEAN DEFAULT FALSE;
 
 -- CRIAR PKS
-
 ALTER TABLE escola ADD CONSTRAINT PRIMARY KEY (CO_ENTIDADE);
 ALTER TABLE turma ADD CONSTRAINT PRIMARY KEY (ID_TURMA);
 ALTER TABLE docente ADD CONSTRAINT PRIMARY KEY (CO_PESSOA_FISICA, ID_TURMA);
@@ -614,38 +543,18 @@ ALTER TABLE matricula ADD CONSTRAINT PRIMARY KEY (ID_MATRICULA);
 ALTER TABLE ideb ADD CONSTRAINT PRIMARY KEY (CO_ENTIDADE);
 
 -- RELACIONAMENTO ENTRE AS TABELAS
-
 ALTER TABLE bookmark ADD CONSTRAINT FOREIGN KEY (id_escola) REFERENCES escola(CO_ENTIDADE);
 ALTER TABLE bookmark ADD CONSTRAINT FOREIGN KEY (id_usuario) REFERENCES usuario(id);
 ALTER TABLE docente ADD CONSTRAINT FOREIGN KEY (ID_TURMA) REFERENCES turma(ID_TURMA);
 ALTER TABLE ideb ADD CONSTRAINT FOREIGN KEY (CO_ENTIDADE) REFERENCES escola(CO_ENTIDADE);
 
-/*
--- EXERCICIOS DQL
-
-Select * from freedb_teste_teste.escola;
-
-Select CO_ENTIDADE, NO_ENTIDADE from freedb_teste_teste.escola;
-
-Select * from freedb_teste_teste.turma where co_entidade = 35021817;
-
-Select * from freedb_teste_teste.matricula where in_autismo = true OR in_def_intelectual = true;
-
-Select * from freedb_teste_teste.docente  where co_entidade = 35021817 and NU_IDADE <= 45;
-
-Select * from freedb_teste_teste.escola where TP_SITUACAO_FUNCIONAMENTO != 1;
-
-Select distinct tp_etapa_ensino from freedb_teste_teste.turma; -- Select tp_etapa_ensino from freedb_teste_teste.turma group by;
-*/
-
-
 -- AULA 21/09
-CREATE VIEW Escolas_Ativas AS SELECT * FROM escola WHERE TP_SITUACAO_FUNCIONAMENTO =1;
+CREATE VIEW Escolas_Ativas AS SELECT * FROM Escola WHERE TP_SITUACAO_FUNCIONAMENTO =1;
 
-CREATE VIEW Colunas_Usadas_Escola AS SELECT NO_ENTIDADE, CO_ENTIDADE, DT_ANO_LETIVO_INICIO, DT_ANO_LETIVO_TERMINO  FROM escola;
-CREATE VIEW Colunas_Usadas_Matricula AS SELECT ID_MATRICULA, NU_IDADE FROM matricula;
-CREATE VIEW Colunas_Usadas_Turma AS SELECT NU_MATRICULAS, NO_TURMA FROM turma;
-CREATE VIEW Colunas_Usadas_Docente AS SELECT CO_PESSOA_FISICA, NU_IDADE_REFERENCIA, TP_SEXO FROM docente;
+CREATE VIEW Colunas_Usadas_Escola AS SELECT NO_ENTIDADE, CO_ENTIDADE, DT_ANO_LETIVO_INICIO, DT_ANO_LETIVO_TERMINO  FROM Escola;
+CREATE VIEW Colunas_Usadas_Matricula AS SELECT ID_MATRICULA, NU_IDADE FROM Matricula;
+CREATE VIEW Colunas_Usadas_Turma AS SELECT NU_MATRICULAS, NO_TURMA FROM Turma;
+CREATE VIEW Colunas_Usadas_Docente AS SELECT CO_PESSOA_FISICA, NU_IDADE_REFERENCIA, TP_SEXO FROM Docente;
 
 CREATE VIEW Num_Professores_Escolas_Ativas AS 
 	SELECT
@@ -660,7 +569,7 @@ CREATE VIEW Num_Professores_Escolas_Ativas AS
 			WHEN e.TP_DEPENDENCIA = 4 THEN 'Privada'
         END AS TP_DEPENDENCIA,
 	COUNT(DISTINCT d.CO_PESSOA_FISICA) AS TOTAL_DOCENTES
-	FROM escola e
+	FROM Escola e
     JOIN docente d ON d.CO_ENTIDADE = e.CO_ENTIDADE
     WHERE TP_SITUACAO_FUNCIONAMENTO = 1;
 
@@ -685,10 +594,6 @@ BEGIN
     END IF;
 END $$
 DELIMITER ;
-
-/* FAZER!!!!!
-Crie uma função que retorne quantas turmas um determinado docente dá aula (parâmetro);
-*/
 
 CREATE FUNCTION Etapa_Ensino(TP_ETAPA_ENSINO INT)
 RETURNS VARCHAR(255)
@@ -762,13 +667,8 @@ BEGIN
 END $$
 DELIMITER ;
 
-/* FAZER!!!!
-Crie 5 procedures para cada entidade nova (Usuário e Bookmark): insert, update, delete, select all, select 1 – usando
-parâmetros de entrada adequados 
-*/
-
 DELIMITER $$
-CREATE TRIGGER Verificar_Vamanho_Venha
+CREATE TRIGGER Verificar_Tamanho_Senha
 BEFORE INSERT ON usuario
 FOR EACH ROW
 BEGIN

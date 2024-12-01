@@ -1,136 +1,146 @@
 import streamlit as st
-import pandas as pd
 import plotly.express as px
-import numpy as np
+from controllers.dashboards import (
+    process_schools_data,
+    process_turmas_data,
+    process_docentes_data,
+    process_schools_geolocation
+)
+import folium
+from folium.plugins import MarkerCluster
 
 
-def show_dashboard():
-    # Gerando um DataFrame de exemplo com mais dados
-    np.random.seed(42)
+st.title("Dashboard Educacional")
 
-    # Definindo as categorias, anos e valores
-    categorias = ['A', 'B', 'C', 'D', 'E']
-    anos = [2020, 2021, 2022, 2023, 2024]
-    status = ['Pendente', 'Concluído']
+# Dados reais do banco
+schools_data = process_schools_data()
+turmas_data = process_turmas_data()
+docentes_data = process_docentes_data()
+geolocation_data = process_schools_geolocation()
 
-    # Criando um DataFrame com múltiplas combinações de Ano e Categoria
-    data = {
-        'Categoria': np.random.choice(categorias, size=100),
-        'Valor': np.random.randint(100, 1000, size=100),  # Valores entre 100 e 1000
-        'Ano': np.random.choice(anos, size=100),
-        'Status': np.random.choice(status, size=100),
-    }
+# Definindo cores específicas para as categorias
+situacao_cores = {
+    'Ativa': 'green',
+    'Paralisada': 'orange',
+    'Extinta': 'red'
+}
+etapa_cores = {
+    'Educação Infantil': 'blue',
+    'Ensino Fundamental': 'purple',
+    'Ensino Médio': 'cyan'
+}
+docente_cores = {
+    'Professor Regular': 'blue',
+    'Coordenador Pedagógico': 'green',
+    'Supervisor Escolar': 'red'
+}
 
-    df = pd.DataFrame(data)
+# Sidebar - Filtros
+st.sidebar.title("Filtros de Análise")
 
-    # Definindo as cores para cada categoria
-    categoria_cores = {
-        'A': 'blue',
-        'B': 'green',
-        'C': 'red',
-        'D': 'orange',
-        'E': 'purple'
-    }
+# Filtro de Categoria de Escolas
+categorias_filtro = st.sidebar.multiselect(
+    "Selecione Situações das Escolas",
+    options=schools_data['TP_SITUACAO_FUNCIONAMENTO'].unique(),
+    default=schools_data['TP_SITUACAO_FUNCIONAMENTO'].unique()
+)
 
-    # Sidebar - Filtros
-    st.sidebar.title("Filtros de Análise")
+# Filtro de Etapas de Ensino
+etapas_filtro = st.sidebar.multiselect(
+    "Selecione as Etapas de Ensino",
+    options=turmas_data['TP_ETAPA_ENSINO'].unique(),
+    default=turmas_data['TP_ETAPA_ENSINO'].unique()
+)
 
-    # Legenda explicativa na Sidebar sobre as Cores
-    st.sidebar.markdown("""
-        ### Legenda de Cores para Categorias
-        - **Categoria A:** Azul
-        - **Categoria B:** Verde
-        - **Categoria C:** Vermelho
-        - **Categoria D:** Laranja
-        - **Categoria E:** Roxo
-    """)
+# Filtrando os Dados
+schools_data_filtrado = schools_data[schools_data['TP_SITUACAO_FUNCIONAMENTO'].isin(categorias_filtro)]
+turmas_data_filtrado = turmas_data[turmas_data['TP_ETAPA_ENSINO'].isin(etapas_filtro)]
 
-    # Filtro de Categoria - Múltipla Seleção
-    categoria_filtro = st.sidebar.multiselect(
-        "Selecione as Categorias", options=df['Categoria'].unique(), default=df['Categoria'].unique()
+# Primeira Linha: KPIs
+col1, col2, col3 = st.columns(3)
+with col1:
+    st.metric(label="Total de Escolas", value=f'{len(schools_data_filtrado)}')
+with col2:
+    st.metric(label="Total de Turmas", value=f'{turmas_data_filtrado["TOTAL_TURMAS"].sum()}')
+with col3:
+    st.metric(label="Total de Docentes", value=f'{docentes_data["TOTAL_DOCENTES"].sum()}')
+
+# Corpo do Dashboard
+
+# Gráfico: Distribuição de Escolas por Situação
+col1, col2 = st.columns(2)
+with col1:
+    st.subheader("Distribuição de Escolas por Situação")
+    fig1 = px.pie(
+        schools_data_filtrado,
+        names='TP_SITUACAO_FUNCIONAMENTO',
+        title="Distribuição de Escolas por Situação",
+        color='TP_SITUACAO_FUNCIONAMENTO',
+        color_discrete_map=situacao_cores
     )
+    st.plotly_chart(fig1, use_container_width=True)
 
-    # Filtro de Faixa de Valores
-    valor_min, valor_max = st.sidebar.slider(
-        "Selecione a Faixa de Valores",
-        min_value=int(df['Valor'].min()),
-        max_value=int(df['Valor'].max()),
-        value=(int(df['Valor'].min()), int(df['Valor'].max()))
+# Gráfico: Turmas por Etapa de Ensino
+with col2:
+    st.subheader("Turmas por Etapa de Ensino")
+    fig2 = px.bar(
+        turmas_data_filtrado,
+        x='TP_ETAPA_ENSINO',
+        y='TOTAL_TURMAS',
+        title="Turmas por Etapa de Ensino",
+        color='TP_ETAPA_ENSINO',
+        color_discrete_map=etapa_cores
     )
+    st.plotly_chart(fig2, use_container_width=True)
 
-    # Filtro de Ano - Múltipla Seleção
-    ano_filtro = st.sidebar.multiselect(
-        "Selecione os Anos", options=df['Ano'].unique(), default=df['Ano'].unique()
+# Gráfico: Docentes por Função e Mapa de Geolocalização
+col3, col4 = st.columns(2)
+with col3:
+    st.subheader("Docentes por Função")
+    fig3 = px.bar(
+        docentes_data,
+        x='TP_TIPO_DOCENTE',
+        y='TOTAL_DOCENTES',
+        title="Docentes por Função",
+        color='TP_TIPO_DOCENTE',
+        color_discrete_map=docente_cores
     )
+    st.plotly_chart(fig3, use_container_width=True)
 
-    # Filtrando os Dados com base nos Filtros
-    df_filtrado = df[
-        (df['Categoria'].isin(categoria_filtro)) &
-        (df['Valor'] >= valor_min) &
-        (df['Valor'] <= valor_max) &
-        (df['Ano'].isin(ano_filtro))
-    ]
+# Mapa de Geolocalização na Coluna Direita
+with col4:
+    st.subheader("Mapa de Geolocalização das Escolas")
+    st.text("Informações coletadas do dataset adicional fornecido no classroom")
 
-    # Layout do Dashboard
-    st.title("Dashboard de Análise de Dados")
+    # Criando o mapa inicial (usando coordenadas médias do Brasil)
+    mapa = folium.Map(location=[-14.235004, -51.92528], zoom_start=4)
 
-    # Primeira Linha: KPIs
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric(label="Total de Valores", value=f'{df_filtrado["Valor"].sum()}')
-    with col2:
-        st.metric(label="Média de Valores", value=f'{df_filtrado["Valor"].mean():.2f}')
-    with col3:
-        st.metric(label="Valor Máximo", value=f'{df_filtrado["Valor"].max()}')
+    # Adicionando os pontos ao mapa usando MarkerCluster
+    marker_cluster = MarkerCluster().add_to(mapa)
 
-    # Corpo do Dashboard
+    # Iterando pelos dados e adicionando marcadores
+    for _, row in geolocation_data.iterrows():
+        folium.Marker(
+            location=[row['LAT'], row['LNG']],
+            popup=f"{row['NO_ENTIDADE']} ({row['LAT']}, {row['LNG']})"
+        ).add_to(marker_cluster)
 
-    # Criando 2 colunas para separar o Overview (esquerda) e o Depth Analysis (direita)
-    col_left, col_right = st.columns([3, 2])  # 2 para a coluna esquerda e 3 para a coluna direita
+    # Exibindo o mapa no Streamlit
+    st.components.v1.html(mapa._repr_html_(), height=500)
 
-    with col_left:
-        # Overview: Gráfico de Barras
-        st.markdown("## Overview")
-        st.write("Aqui você pode incluir gráficos gerais que resumem os dados filtrados.")
-        fig = px.bar(df_filtrado, x='Categoria', y='Valor', title="Distribuição dos Valores por Categoria",
-                    color='Categoria', color_discrete_map=categoria_cores)
-        st.plotly_chart(fig, use_container_width=True)
+# Tabela de Dados
+st.markdown("### Dados das Escolas")
+st.dataframe(schools_data_filtrado, use_container_width=True)
 
-    with col_right:
-        # Análise Profunda: Gráfico de Pizza e Linha
-        st.markdown("## Análise Profunda")
-        st.write("Gráficos mais profundos para análise detalhada dos dados.")
-        
-        # Gráfico de Pizza
-        fig2 = px.pie(df_filtrado, names='Categoria', values='Valor', title="Distribuição Percentual por Categoria",
-                    color='Categoria', color_discrete_map=categoria_cores)
-        st.plotly_chart(fig2, use_container_width=True)
+# Análise Profunda
+st.markdown("## Análise Profunda")
+st.write("Gráficos detalhados baseados nos dados filtrados.")
 
-        # Gráfico de Linha (Evolução dos Valores ao Longo dos Anos)
-        fig3 = px.line(df_filtrado, x='Ano', y='Valor', title="Evolução dos Valores ao Longo dos Anos",
-                    color='Categoria', color_discrete_map=categoria_cores)
-        st.plotly_chart(fig3, use_container_width=True)
-
-    # Tabela de Dados
-    st.markdown("### Tabela de Dados")
-    st.dataframe(df_filtrado, use_container_width=True)
-
-    col_left, col_right = st.columns([3, 2])
-
-    with col_left:
-        # Action Items
-        st.markdown("## Action Items")
-        action_items = [
-            "Verificar as categorias com maior valor.",
-            "Analisar os dados de vendas de 2024.",
-            "Implementar ação para aumentar valores nas categorias 'Pendente'."
-        ]
-        for item in action_items:
-            st.write(f"- {item}")
-
-    with col_right:
-        # Row-level Data
-        st.markdown("## Row-level Data")
-        st.write(
-            "Aqui estão os dados detalhados para cada linha, conforme os filtros aplicados:")
-        st.dataframe(df_filtrado, use_container_width=True)
+# Gráfico Evolução (Exemplo com dummy data)
+fig5 = px.line(
+    turmas_data_filtrado,
+    x='TP_ETAPA_ENSINO',
+    y='TOTAL_TURMAS',
+    title="Evolução de Turmas por Etapa de Ensino",
+)
+st.plotly_chart(fig5, use_container_width=True)
