@@ -158,24 +158,26 @@ Os controladores essão representados pelos arquivos dentro de `src/controllers`
 <a id="how-to_local"></a>
 
 ### Rodar Localmente
-- Clonar o repositório na máquina local
-- Criar um banco de dados local com o banco censo_escolar
-- Criar um ambiente virtual com o comando `python -m venv venv`
-  - O comando pode ser diferente a depender da versão do python ou SO utilizado
-- Instalar as dependências necessárias, presentes dentro do arquivo `.\requirements.txt`, com o comando `pip install -r .\requirements.txt`
-- Na raiz do projeto, crie a pasta `.streamlit`, e dentro dela crie o arquivo `.secrets.toml`
-- Preencha o arquivo com o seguinte código:
-  ```
-    /* Preencha com os dados do banco de dados local */
-    [db_credentials]
-    user=""
-    password=""
-    host=""
-    db="censo_escolar"
-    port=
-  ```
-- Inicialize a aplicação com o comando `streamlit run app.py`
-- Acesse com as credenciais cadastradas no banco
+1. Clonar o repositório na máquina local
+2. Criar um banco de dados local com o banco
+3. No banco de dados, rode o arquivo `schema.sql`, e depois o arquivo `seed.sql`. Isso fará com que o banco seja criado e populado localmente.
+4. Após isso, execute o arquivo `execute_script.py` a partir do comando `python .\execute_script.py`. Isso fara com o banco seja populado mais os arquivos `.csv`.
+5. Criar um ambiente virtual com o comando `python -m venv venv`
+  5.1 O comando pode ser diferente a depender da versão do python ou SO utilizado
+6. Instalar as dependências necessárias, presentes dentro do arquivo `.\requirements.txt`, com o comando `pip install -r .\requirements.txt`
+7. Na raiz do projeto, crie a pasta `.streamlit`, e dentro dela crie o arquivo `.secrets.toml`
+8. Preencha o arquivo com o seguinte código:
+    ```
+      /* Preencha com os dados do banco de dados local */
+      [db_credentials]
+      user=""
+      password=""
+      host=""
+      db="censo_escolar"
+      port=
+    ```
+9. Inicialize a aplicação com o comando `streamlit run app.py`
+10. Acesse com as credenciais cadastradas no banco
 
 <a id="how-to_platform"></a>
 
