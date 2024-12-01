@@ -1,6 +1,9 @@
 streamlit
+streamlit-aggrid
 pymysql
 sqlalchemy
 pandas
+mysql-connector-python
+python-dotenv
 plotly
-streamlit-aggrid
+folium
