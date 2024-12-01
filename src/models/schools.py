@@ -36,7 +36,7 @@ def get_all_schools(filters=None):
     finally:
         connection.close()
 
-def get_school_by_city(city):
+def get_school():
     connection = get_connection()
     try:
         with connection.cursor(dictionary=True) as cursor:
@@ -55,29 +55,9 @@ def get_school_by_city(city):
                 turma t
             ON 
                 e.CO_ENTIDADE = t.CO_ENTIDADE
-            WHERE 
-                e.CO_MUNICIPIO = %s
-            GROUP BY 
-                e.CO_ENTIDADE, e.NO_ENTIDADE, e.TP_SITUACAO_FUNCIONAMENTO, 
-                e.CO_MUNICIPIO, e.TP_LOCALIZACAO, e.TP_DEPENDENCIA
             """
 
             # Executa a query
-            cursor.execute(query, (city,))
-            return cursor.fetchall()
-    finally:
-        connection.close()
-
-def get_cities():
-    connection = get_connection()
-    try:
-        with connection.cursor(dictionary=True) as cursor:
-            query = """
-            SELECT DISTINCT 
-                CO_MUNICIPIO
-            FROM 
-                escola
-            """
             cursor.execute(query)
             return cursor.fetchall()
     finally:
