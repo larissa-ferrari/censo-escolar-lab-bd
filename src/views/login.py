@@ -10,15 +10,16 @@ def login_view():
     login_button = st.button("Entrar")
 
     if login_button:
-        id_user = authenticate_user(email, password)
+        with st.spinner("Autenticando Usuário..."):
+            id_user = authenticate_user(email, password)
 
-        if not id_user:
-            return st.error("Usuário ou senha inválidos.")
-        
-        st.success("Login realizado com sucesso!")
-        st.session_state["logged_in"] = True
-        st.session_state["user"] = get_user(id_user)
-        st.rerun()
+            if not id_user:
+                return st.error("Usuário ou senha inválidos.")
+            
+            st.success("Login realizado com sucesso!")
+            st.session_state["logged_in"] = True
+            st.session_state["user"] = get_user(id_user)
+            st.rerun()
 
 # Tela de logout
 def logout_view():

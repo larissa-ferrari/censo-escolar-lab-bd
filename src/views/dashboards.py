@@ -12,11 +12,12 @@ from folium.plugins import MarkerCluster
 
 st.title("Dashboard Educacional")
 
-# Dados reais do banco
-schools_data = process_schools_data()
-turmas_data = process_turmas_data()
-docentes_data = process_docentes_data()
-geolocation_data = process_schools_geolocation()
+with st.spinner("Carregando Dados..."):
+    # Dados reais do banco
+    schools_data = process_schools_data()
+    turmas_data = process_turmas_data()
+    docentes_data = process_docentes_data()
+    geolocation_data = process_schools_geolocation()
 
 # Definindo cores específicas para as categorias
 situacao_cores = {

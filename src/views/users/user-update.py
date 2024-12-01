@@ -13,7 +13,6 @@ if users:
 
   df = pd.DataFrame(users)
     
-  # Use 'itertuples()' para criar as opções no selectbox
   select_user = st.selectbox(
       "Selecione um usuário para alterar",
       options=df.itertuples(index=False),  # Utilizando itertuples após converter para DataFrame
@@ -38,8 +37,10 @@ if users:
         submitted = st.form_submit_button("Salvar")
 
         if submitted and name and email:
-          update_user(user_id, name, email, password, is_adm, birthday)
-          st.success("Usuário atualizado com sucesso!")
+          with st.spinner(f"Atualizando Usuário: {user_id}..."):
+            update_user(user_id, name, email, password, is_adm, birthday)
+            st.success("Usuário atualizado com sucesso!")
+            st.rerun()
 
     else:
       st.warning("Usuário Não Encontrado!")

@@ -3,7 +3,6 @@ from src.controllers.user import add_user
 from datetime import date
 
 st.title("Gerenciamento de Usuários")
-
 st.subheader("Criação de Usuário")
 
 # Formulário para adicionar usuário
@@ -16,5 +15,7 @@ with st.form("add_user_form"):
     submitted = st.form_submit_button("Adicionar Usuário")
     
     if submitted and name and email and password:
-        add_user(name, email, password, is_adm=is_adm, birthday=birthday)
-        st.success("Usuário adicionado com sucesso!")
+        with st.spinner("Adicionando Usuário..."):
+            add_user(name, email, password, is_adm=is_adm, birthday=birthday)
+            st.success("Usuário adicionado com sucesso!")
+            st.rerun()

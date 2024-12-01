@@ -17,7 +17,7 @@ def get_all_schools(filters=None):
     connection = get_connection()
     try:
         with connection.cursor(dictionary=True) as cursor:
-            query = "SELECT * FROM escola"
+            query = "SELECT NO_ENTIDADE, CO_ENTIDADE, DT_ANO_LETIVO_INICIO, DT_ANO_LETIVO_TERMINO, TP_SITUACAO_FUNCIONAMENTO FROM escola"
 
             values = []
 

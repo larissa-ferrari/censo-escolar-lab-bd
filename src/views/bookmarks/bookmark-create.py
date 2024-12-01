@@ -23,5 +23,6 @@ if schools:
         
         if submitted and selected_school and user_id:
             school_id = selected_school.CO_ENTIDADE
-            add_bookmark(user_id, school_id)
-            st.success("Bookmark adicionado com sucesso!")
+            with st.spinner("Adicionando Bookmark..."):
+                add_bookmark(user_id, school_id)
+                st.success("Bookmark adicionado com sucesso!")
