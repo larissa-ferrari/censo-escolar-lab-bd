@@ -1,12 +1,12 @@
 import streamlit as st
-from src.controllers.schools import list_schools, list_schools
+from src.controllers.schools import list_schools, list_school_dashboard
 import pandas as pd
 
 st.title("Escolas da Cidade")
 st.subheader("Lista de Escolas por Cidade")
     
 with st.spinner("Carregando Escolas..."):
-    bookmarks = list_schools()
+    bookmarks = list_school_dashboard()
 
 df = pd.DataFrame(bookmarks)
 

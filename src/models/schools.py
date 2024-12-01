@@ -36,7 +36,7 @@ def get_all_schools(filters=None):
     finally:
         connection.close()
 
-def get_school():
+def get_schools_dashboard():
     connection = get_connection()
     try:
         with connection.cursor(dictionary=True) as cursor:
