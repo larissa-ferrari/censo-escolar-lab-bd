@@ -86,8 +86,8 @@ with col2:
     st.subheader("Turmas por Etapa de Ensino")
     fig2 = px.bar(
         turmas_data_filtrado,
-        x='Etapa de Ensino',
-        y='Número de Turmas',
+        x='TP_ETAPA_ENSINO',
+        y='TOTAL_TURMAS',
         title="Turmas por Etapa de Ensino",
         color='TP_ETAPA_ENSINO',
         color_discrete_map=etapa_cores
@@ -100,8 +100,8 @@ with col3:
     st.subheader("Docentes por Função")
     fig3 = px.bar(
         docentes_data,
-        x='Tipo de Docente',
-        y='Número de Docentes',
+        x='TP_TIPO_DOCENTE',
+        y='TOTAL_DOCENTES',
         title="Docentes por Função",
         color='TP_TIPO_DOCENTE',
         color_discrete_map=docente_cores
@@ -140,8 +140,8 @@ st.write("Gráficos detalhados baseados nos dados filtrados.")
 # Gráfico Evolução (Exemplo com dummy data)
 fig5 = px.line(
     turmas_data_filtrado,
-    x='Etapa de Ensino',
-    y='Número de Turmas',
+    x='TP_ETAPA_ENSINO',
+    y='TOTAL_TURMAS',
     title="Evolução de Turmas por Etapa de Ensino",
 )
 st.plotly_chart(fig5, use_container_width=True)
