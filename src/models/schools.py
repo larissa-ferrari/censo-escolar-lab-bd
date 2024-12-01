@@ -67,3 +67,18 @@ def get_school_by_city(city):
             return cursor.fetchall()
     finally:
         connection.close()
+
+def get_cities():
+    connection = get_connection()
+    try:
+        with connection.cursor(dictionary=True) as cursor:
+            query = """
+            SELECT DISTINCT 
+                CO_MUNICIPIO
+            FROM 
+                escola
+            """
+            cursor.execute(query)
+            return cursor.fetchall()
+    finally:
+        connection.close()
