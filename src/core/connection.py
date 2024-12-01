@@ -8,5 +8,5 @@ def get_connection():
         user=st.secrets.db_credentials.user,
         password=st.secrets.db_credentials.password,
         database=st.secrets.db_credentials.db,
-        port=16202
+        port=st.secrets.db_credentials.port
     )
