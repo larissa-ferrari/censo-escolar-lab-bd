@@ -1,7 +1,12 @@
-from src.models.bookmarks import create_bookmark, get_all_bookmarks, get_bookmark_by_id, delete_bookmark as _delete_bookmark
+from src.models.bookmarks import create_bookmark, bookmark_exists, get_all_bookmarks, get_bookmark_by_id, delete_bookmark as _delete_bookmark
 
 # Função para adicionar um novo bookmark
 def add_bookmark(user_id, school_id):
+    # Verificar se o bookmark já existe
+    if bookmark_exists(user_id, school_id):
+        raise ValueError("Este bookmark já foi adicionado por este usuário.")
+    
+    # Criar o novo bookmark
     create_bookmark(user_id, school_id)
     return f"Bookmark criado com sucesso."
 

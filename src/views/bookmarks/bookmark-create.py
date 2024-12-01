@@ -23,6 +23,11 @@ if schools:
         
         if submitted and selected_school and user_id:
             school_id = selected_school.CO_ENTIDADE
-            with st.spinner("Adicionando Bookmark..."):
-                add_bookmark(user_id, school_id)
-                st.success("Bookmark adicionado com sucesso!")
+            try:
+                with st.spinner("Adicionando Bookmark..."):
+                    add_bookmark(user_id, school_id)
+                    st.success("Bookmark adicionado com sucesso!")
+            except ValueError as e:
+                st.error(str(e)) 
+            except Exception as e:
+                st.error(f"Erro inesperado: {e}")  

@@ -64,3 +64,20 @@ def delete_bookmark(bookmark_id):
             connection.commit()
     finally:
         connection.close()
+        
+        
+# Função para verificar se o bookmark já existe
+def bookmark_exists(user_id, school_id):
+    connection = get_connection()
+    try:
+        with connection.cursor(dictionary=True) as cursor:
+            query = """
+                SELECT 1
+                FROM bookmark
+                WHERE id_usuario = %s AND id_escola = %s
+                LIMIT 1
+            """
+            cursor.execute(query, (user_id, school_id))
+            return cursor.fetchone() is not None
+    finally:
+        connection.close()
