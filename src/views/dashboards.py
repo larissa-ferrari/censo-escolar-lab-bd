@@ -74,7 +74,7 @@ with col1:
     st.subheader("Distribuição de Escolas por Situação")
     fig1 = px.pie(
         schools_data_filtrado,
-        names='TP_SITUACAO_FUNCIONAMENTO',
+        names='Situação de Funcionamento',
         title="Distribuição de Escolas por Situação",
         color='TP_SITUACAO_FUNCIONAMENTO',
         color_discrete_map=situacao_cores
@@ -86,8 +86,8 @@ with col2:
     st.subheader("Turmas por Etapa de Ensino")
     fig2 = px.bar(
         turmas_data_filtrado,
-        x='TP_ETAPA_ENSINO',
-        y='TOTAL_TURMAS',
+        x='Etapa de Ensino',
+        y='Número de Turmas',
         title="Turmas por Etapa de Ensino",
         color='TP_ETAPA_ENSINO',
         color_discrete_map=etapa_cores
@@ -100,8 +100,8 @@ with col3:
     st.subheader("Docentes por Função")
     fig3 = px.bar(
         docentes_data,
-        x='TP_TIPO_DOCENTE',
-        y='TOTAL_DOCENTES',
+        x='Função do Docente',
+        y='Número de Docentes',
         title="Docentes por Função",
         color='TP_TIPO_DOCENTE',
         color_discrete_map=docente_cores
@@ -140,8 +140,8 @@ st.write("Gráficos detalhados baseados nos dados filtrados.")
 # Gráfico Evolução (Exemplo com dummy data)
 fig5 = px.line(
     turmas_data_filtrado,
-    x='TP_ETAPA_ENSINO',
-    y='TOTAL_TURMAS',
+    x='Etapa de Ensino',
+    y='Número de Turmas',
     title="Evolução de Turmas por Etapa de Ensino",
 )
 st.plotly_chart(fig5, use_container_width=True)
