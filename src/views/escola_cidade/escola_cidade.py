@@ -10,9 +10,7 @@ codigo_municipio = st.text_input("Digite o código do município para filtrar:")
 
 # Convertendo o código do município para consulta (apenas se preenchido)
 if codigo_municipio.isdigit():
-    filtro = {"CO_MUNICIPIO": int(codigo_municipio)}
-else:
-    filtro = {}
+    filtro = int(codigo_municipio)
 
 # Carregar as escolas com base no filtro
 with st.spinner("Carregando Escolas..."):
