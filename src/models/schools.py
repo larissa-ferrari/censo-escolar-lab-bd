@@ -48,14 +48,7 @@ def get_schools_dashboard():
                     e.CO_MUNICIPIO,
                     e.TP_LOCALIZACAO,
                     e.TP_DEPENDENCIA,
-                    (
-                        SELECT STRING_AGG(Etapa_Ensino(t.TP_ETAPA_ENSINO), ', ')
-                        FROM (
-                            SELECT DISTINCT t.TP_ETAPA_ENSINO
-                            FROM turma t
-                            WHERE t.CO_ENTIDADE = e.CO_ENTIDADE
-                        ) DistinctStages
-                    ) AS [Níveis_Atendidos]
+                    GROUP_CONCAT(DISTINCT Etapa_Ensino(t.TP_ETAPA_ENSINO) SEPARATOR ', ') AS Níveis_Atendidos
                 FROM 
                     escola e
                 LEFT JOIN 
@@ -70,10 +63,9 @@ def get_schools_dashboard():
                     e.TP_LOCALIZACAO,
                     e.TP_DEPENDENCIA;
             """
-
-            # Executa a query
             cursor.execute(query)
             return cursor.fetchall()
+    except mysql.connector.Error as err:
+        print("Erro SQL:", err)
     finally:
         connection.close()
-
