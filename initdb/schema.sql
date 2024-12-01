@@ -1,4 +1,4 @@
--- Versionamento 2024.10
+-- Versionamento
 CREATE DATABASE censo_escolar;
 
 use censo_escolar;
