@@ -36,49 +36,36 @@ def get_all_schools(filters=None):
     finally:
         connection.close()
 
-def get_school_by_city(city):
+def get_schools_dashboard():
     connection = get_connection()
     try:
         with connection.cursor(dictionary=True) as cursor:
             query = """
-            SELECT 
-                e.CO_ENTIDADE,
-                e.NO_ENTIDADE,
-                e.TP_SITUACAO_FUNCIONAMENTO,
-                e.CO_MUNICIPIO,
-                e.TP_LOCALIZACAO,
-                e.TP_DEPENDENCIA,
-                STRING_AGG(DISTINCT Etapa_Ensino(t.TP_ETAPA_ENSINO), ', ') AS Níveis_Atendidos
-            FROM 
-                escola e
-            LEFT JOIN 
-                turma t
-            ON 
-                e.CO_ENTIDADE = t.CO_ENTIDADE
-            WHERE 
-                e.CO_MUNICIPIO = %s
-            GROUP BY 
-                e.CO_ENTIDADE, e.NO_ENTIDADE, e.TP_SITUACAO_FUNCIONAMENTO, 
-                e.CO_MUNICIPIO, e.TP_LOCALIZACAO, e.TP_DEPENDENCIA
-            """
-
-            # Executa a query
-            cursor.execute(query, (city,))
-            return cursor.fetchall()
-    finally:
-        connection.close()
-
-def get_cities():
-    connection = get_connection()
-    try:
-        with connection.cursor(dictionary=True) as cursor:
-            query = """
-            SELECT DISTINCT 
-                CO_MUNICIPIO
-            FROM 
-                escola
+                SELECT 
+                    e.CO_ENTIDADE, 
+                    e.NO_ENTIDADE,
+                    e.TP_SITUACAO_FUNCIONAMENTO,
+                    e.CO_MUNICIPIO,
+                    e.TP_LOCALIZACAO,
+                    e.TP_DEPENDENCIA,
+                    GROUP_CONCAT(DISTINCT t.TP_ETAPA_ENSINO SEPARATOR ', ') AS Níveis_Atendidos
+                FROM 
+                    escola e
+                LEFT JOIN 
+                    turma t
+                ON 
+                    e.CO_ENTIDADE = t.CO_ENTIDADE
+                GROUP BY 
+                    e.CO_ENTIDADE, 
+                    e.NO_ENTIDADE,
+                    e.TP_SITUACAO_FUNCIONAMENTO,
+                    e.CO_MUNICIPIO,
+                    e.TP_LOCALIZACAO,
+                    e.TP_DEPENDENCIA;
             """
             cursor.execute(query)
             return cursor.fetchall()
+    except mysql.connector.Error as err:
+        print("Erro SQL:", err)
     finally:
         connection.close()
