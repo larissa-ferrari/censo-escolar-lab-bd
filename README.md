@@ -158,6 +158,8 @@ Este projeto foi desenvolvido utilizando a arquitetura MVC (Model-View-Controlle
 
 - **Alunos por Etapa de Ensino:** Listagem da quantidade de alunos pertencentes a cada etapa de ensino, mostrando a etapa junto com a quantidade.
 
+- **Notas do Ideb:** Visualização detalhada das notas do IDEB por escola, permitindo uma análise comparativa do desempenho de cada instituição educacional.
+
 <!-- GETTING STARTED -->
 
 <a id="how-to"></a>
