@@ -19,7 +19,9 @@ if not schools_df.empty:
     )
 
     with st.spinner("Carregando Turmas..."):
+        print(f"selected_school: {selected_school}")
         filtered_turmas = list_class(str(selected_school))
+
 
     if filtered_turmas:
         df = pd.DataFrame(filtered_turmas)
