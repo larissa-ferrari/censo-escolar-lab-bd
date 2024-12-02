@@ -14,12 +14,14 @@ schools_df = pd.DataFrame(schools)
 if not schools_df.empty:
     selected_school = st.selectbox(
         "Selecione a Escola", 
-        options=schools_df['CO_ENTIDADE'].unique(),
+        options=[f"{row['NO_ENTIDADE']} ({row['CO_ENTIDADE']})" for index, row in schools_df.iterrows()],
         index=0
     )
 
+    selected_co_entidade = int(selected_school.split('(')[-1].strip(')'))
+
     with st.spinner("Carregando Turmas..."):
-        filtered_turmas = list_class(filters={"CO_ENTIDADE": int(selected_school)})
+        filtered_turmas = list_class(filters={"CO_ENTIDADE": selected_co_entidade})
 
     if filtered_turmas:
         df = pd.DataFrame(filtered_turmas)
@@ -32,6 +34,6 @@ if not schools_df.empty:
 
         st.dataframe(df, use_container_width=True)
     else:
-        st.info(f"Nenhuma Turma Encontrada para a Escola {selected_school}")
+        st.info(f"Nenhuma Turma Encontrada para a Escola com Código {selected_co_entidade}")
 else:
     st.info("Nenhuma Escola Encontrada!")
