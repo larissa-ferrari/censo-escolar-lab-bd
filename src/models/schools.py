@@ -48,7 +48,7 @@ def get_schools_dashboard():
                     e.CO_MUNICIPIO,
                     e.TP_LOCALIZACAO,
                     e.TP_DEPENDENCIA,
-                    GROUP_CONCAT(DISTINCT Etapa_Ensino(t.TP_ETAPA_ENSINO) SEPARATOR ', ') AS Níveis_Atendidos
+                    GROUP_CONCAT(DISTINCT t.TP_ETAPA_ENSINO SEPARATOR ', ') AS Níveis_Atendidos
                 FROM 
                     escola e
                 LEFT JOIN 
