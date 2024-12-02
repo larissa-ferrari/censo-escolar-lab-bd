@@ -3,7 +3,7 @@ CREATE DATABASE censo_escolar;
 
 use censo_escolar;
 
-create table docentes (
+create table docente (
     NU_ANO_CENSO int,
     CO_PESSOA_FISICA bigint,
     NU_DIA int,
