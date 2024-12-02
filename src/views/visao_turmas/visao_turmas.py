@@ -19,7 +19,7 @@ if not schools_df.empty:
     )
 
     with st.spinner("Carregando Turmas..."):
-        filtered_turmas = list_class(filters={"CO_ENTIDADE": selected_school})
+        filtered_turmas = list_class(filters={"CO_ENTIDADE": int(selected_school)})
 
     if filtered_turmas:
         df = pd.DataFrame(filtered_turmas)
