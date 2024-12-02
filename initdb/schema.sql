@@ -730,34 +730,43 @@ END$$
 
 DELIMITER;
 
-DELIMITER $ $ CREATE PROCEDURE Listar_Escolas(offset_param INT, limit_param INT) BEGIN
-SELECT
-    *
-FROM
-    escola
-ORDER BY
-    CO_ENTIDADE
-LIMIT
-    limit_param OFFSET offset_param;
+DELIMITER $$
 
-END $ $ DELIMITER;
+CREATE PROCEDURE Listar_Escolas(offset_param INT, limit_param INT)
+BEGIN
+    SELECT *
+    FROM escola
+    ORDER BY CO_ENTIDADE
+    LIMIT limit_param OFFSET offset_param;
+END $$
 
-DELIMITER $ $ CREATE TRIGGER Verificar_Tamanho_Senha BEFORE
-INSERT
-    ON usuario FOR EACH ROW BEGIN IF CHAR_LENGTH(NEW.senha) != 40 THEN SIGNAL SQLSTATE '45000'
-SET
-    MESSAGE_TEXT = 'A senha deve ter 40 caracteres (hash SHA-1).';
+DELIMITER ;
 
-END IF;
 
-END $ $ DELIMITER;
+DELIMITER $$
 
-DELIMITER $ $ CREATE TRIGGER Verificar_Email BEFORE
-INSERT
-    ON usuario FOR EACH ROW BEGIN IF Validar_Email(NEW.email) = FALSE THEN SIGNAL SQLSTATE '45000'
-SET
-    MESSAGE_TEXT = 'O formato do e-mail é inválido.';
+CREATE TRIGGER Verificar_Tamanho_Senha
+BEFORE INSERT ON usuario
+FOR EACH ROW
+BEGIN
+    IF CHAR_LENGTH(NEW.senha) != 40 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'A senha deve ter 40 caracteres (hash SHA-1).';
+    END IF;
+END $$
 
-END IF;
+DELIMITER ;
 
-END $ $ DELIMITER;
+DELIMITER $$
+
+CREATE TRIGGER Verificar_Email
+BEFORE INSERT ON usuario
+FOR EACH ROW
+BEGIN
+    IF Validar_Email(NEW.email) = FALSE THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'O formato do e-mail é inválido.';
+    END IF;
+END $$
+
+DELIMITER ;
