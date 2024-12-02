@@ -6,37 +6,37 @@ def get_class_by_school_id(filters=None):
         with connection.cursor(dictionary=True) as cursor:
             query = """                
                 SELECT     
-                    ID_TURMA int,
-                    NO_TURMA varchar(80), 
-                    IN_DISC_QUIMICA bool,
-                    IN_DISC_FISICA bool,
-                    IN_DISC_MATEMATICA bool,
-                    IN_DISC_BIOLOGIA bool,
-                    IN_DISC_CIENCIAS bool,
-                    IN_DISC_LINGUA_PORTUGUESA bool,
-                    IN_DISC_LINGUA_INGLES bool,
-                    IN_DISC_LINGUA_ESPANHOL bool,
-                    IN_DISC_LINGUA_FRANCES bool,
-                    IN_DISC_LINGUA_OUTRA bool,
-                    IN_DISC_LINGUA_INDIGENA bool,
-                    IN_DISC_ARTES bool,
-                    IN_DISC_EDUCACAO_FISICA bool,
-                    IN_DISC_HISTORIA bool,
-                    IN_DISC_GEOGRAFIA bool,
-                    IN_DISC_FILOSOFIA bool,
-                    IN_DISC_ENSINO_RELIGIOSO bool,
-                    IN_DISC_ESTUDOS_SOCIAIS bool,
-                    IN_DISC_SOCIOLOGIA bool,
-                    IN_DISC_EST_SOCIAIS_SOCIOLOGIA bool,
-                    IN_DISC_INFORMATICA_COMPUTACAO bool,
-                    IN_DISC_PROFISSIONALIZANTE bool,
-                    IN_DISC_ATENDIMENTO_ESPECIAIS bool,
-                    IN_DISC_DIVER_SOCIO_CULTURAL bool,
-                    IN_DISC_LIBRAS bool,
-                    IN_DISC_PEDAGOGICAS bool,
-                    IN_DISC_OUTRAS bool 
-                FROM turmas 
-                """
+                    ID_TURMA,
+                    NO_TURMA, 
+                    IN_DISC_QUIMICA,
+                    IN_DISC_FISICA,
+                    IN_DISC_MATEMATICA,
+                    IN_DISC_BIOLOGIA,
+                    IN_DISC_CIENCIAS,
+                    IN_DISC_LINGUA_PORTUGUESA,
+                    IN_DISC_LINGUA_INGLES,
+                    IN_DISC_LINGUA_ESPANHOL,
+                    IN_DISC_LINGUA_FRANCES,
+                    IN_DISC_LINGUA_OUTRA,
+                    IN_DISC_LINGUA_INDIGENA,
+                    IN_DISC_ARTES,
+                    IN_DISC_EDUCACAO_FISICA,
+                    IN_DISC_HISTORIA,
+                    IN_DISC_GEOGRAFIA,
+                    IN_DISC_FILOSOFIA,
+                    IN_DISC_ENSINO_RELIGIOSO,
+                    IN_DISC_ESTUDOS_SOCIAIS,
+                    IN_DISC_SOCIOLOGIA,
+                    IN_DISC_EST_SOCIAIS_SOCIOLOGIA,
+                    IN_DISC_INFORMATICA_COMPUTACAO,
+                    IN_DISC_PROFISSIONALIZANTE,
+                    IN_DISC_ATENDIMENTO_ESPECIAIS,
+                    IN_DISC_DIVER_SOCIO_CULTURAL,
+                    IN_DISC_LIBRAS,
+                    IN_DISC_PEDAGOGICAS,
+                    IN_DISC_OUTRAS
+                FROM turmas
+            """
 
             values = []
 
