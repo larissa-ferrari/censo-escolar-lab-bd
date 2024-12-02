@@ -89,7 +89,7 @@ def get_schools_qtd_dashboard():
                     matricula m ON e.CO_ENTIDADE = m.CO_ENTIDADE
                 GROUP BY 
                     e.CO_ENTIDADE, 
-                    e.NO_ENTIDADE
+                    e.NO_ENTIDADE;
             """
             cursor.execute(query)
             return cursor.fetchall()
