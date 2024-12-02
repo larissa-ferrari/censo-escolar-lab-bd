@@ -5,8 +5,7 @@ def get_class_by_school_id(school_name):
     try:
         with connection.cursor(dictionary=True) as cursor:
             query = """                
-                SELECT     
-                    t.ID_TURMA,
+                SELECT
                     t.NO_TURMA, 
                     t.IN_DISC_QUIMICA,
                     t.IN_DISC_FISICA,

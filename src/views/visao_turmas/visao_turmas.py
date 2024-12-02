@@ -24,7 +24,6 @@ if not schools_df.empty:
     if filtered_turmas:
         df = pd.DataFrame(filtered_turmas)
         df = df.rename(columns={
-            "ID_TURMA": "Código",
             "NO_TURMA": "Nome"
         })
 
@@ -67,7 +66,7 @@ if not schools_df.empty:
         df['Disciplinas'] = df.apply(get_disciplines, axis=1)
 
         # Exibir o dataframe com quebra de linha nas células de 'Disciplinas'
-        st.table(df[['Código', 'Nome', 'Disciplinas']].apply(lambda x: x.str.wrap(50), axis=1))
+        st.table(df[['Nome', 'Disciplinas']].apply(lambda x: x.str.wrap(50), axis=1))
 
     else:
         st.info(f"Nenhuma Turma Encontrada para a Escola {selected_school}")
