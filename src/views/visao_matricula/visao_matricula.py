@@ -3,7 +3,7 @@ from src.controllers.student import list_students
 import pandas as pd
 
 st.title("Matrículas")
-st.subheader("Visão da Matrícula")
+st.subheader("Visão das Matrículas")
     
 with st.spinner("Carregando Matrículas..."):
     bookmarks = list_students()
