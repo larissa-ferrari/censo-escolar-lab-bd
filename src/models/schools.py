@@ -84,7 +84,7 @@ def get_schools_qtd_dashboard():
                 LEFT JOIN 
                     turma t ON e.CO_ENTIDADE = t.CO_ENTIDADE
                 LEFT JOIN
-                    docentes d ON e.CO_ENTIDADE = d.CO_ENTIDADE
+                    docente d ON e.CO_ENTIDADE = d.CO_ENTIDADE
                 LEFT JOIN
                     matricula m ON e.CO_ENTIDADE = m.CO_ENTIDADE
                 GROUP BY 
