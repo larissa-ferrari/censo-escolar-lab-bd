@@ -1,5 +1,37 @@
 from src.core.connection import get_connection
 
+def get_all_classes(filters=None):
+    connection = get_connection()
+    try:
+        with connection.cursor(dictionary=True) as cursor:
+            query = """
+                SELECT 
+                    ID_TURMA,
+                    NO_TURMA,
+                    CO_ENTIDADE,
+                    TX_HR_INICIAL,
+                    TX_MI_INICIAL,
+                    NU_DURACAO_TURMA,
+                    NU_MATRICULAS
+                FROM turma"""
+
+            values = []
+
+            # Adiciona filtros, se fornecidos
+            if filters:
+                where_clauses = []
+                for column, value in filters.items():
+                    where_clauses.append(f"{column} = %s")
+                    values.append(value)
+
+                query += " WHERE " + " AND ".join(where_clauses)
+
+            # Executa a query
+            cursor.execute(query, tuple(values))
+            return cursor.fetchall()
+    finally:
+        connection.close()
+
 def get_class_by_school_id(school_name):
     connection = get_connection()
     try:
