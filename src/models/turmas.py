@@ -35,8 +35,8 @@ def get_class_by_school_id(school_name):
                     t.IN_DISC_LIBRAS,
                     t.IN_DISC_PEDAGOGICAS,
                     t.IN_DISC_OUTRAS
-                FROM turmas t
-                JOIN escolas e ON t.CO_ENTIDADE = e.CO_ENTIDADE
+                FROM turma t
+                JOIN escola e ON t.CO_ENTIDADE = e.CO_ENTIDADE
                 WHERE e.NO_ENTIDADE = %s
             """
 
