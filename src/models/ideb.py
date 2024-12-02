@@ -7,7 +7,7 @@ def get_ideb_grades_by_school():
         with connection.cursor(dictionary=True) as cursor:
             query = """
                 SELECT
-                    e.NO_ENTIDADEs,
+                    e.NO_ENTIDADE,
                     i.IDEB_AI,
                     i.IDEB_AF,
                     i.IDEB_EM

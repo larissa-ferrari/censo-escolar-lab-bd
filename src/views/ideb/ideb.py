@@ -16,9 +16,9 @@ if df.empty:
     st.info("O número de escolas com nota no Ideb é zero!")
 else:
     df.rename(columns={
-    "NO_ENTIDADE": "Escola",
-    "IDEB_AI": "Ensino Infantil",
-    "IDEB_AF": "Ensino Fundamental",
-    "IDEB_EM": "Ensino Médio"
-    }, inplace=True)
+        "NO_ENTIDADE": "Escola",
+        "IDEB_AI": "Ensino Infantil",
+        "IDEB_AF": "Ensino Fundamental",
+        "IDEB_EM": "Ensino Médio"
+    })
     st.dataframe(df, use_container_width=True)
