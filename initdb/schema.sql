@@ -553,7 +553,7 @@ ADD
     CONSTRAINT PRIMARY KEY (ID_TURMA);
 
 ALTER TABLE
-    docentes
+    docente
 ADD
     CONSTRAINT PRIMARY KEY (CO_PESSOA_FISICA, ID_TURMA);
 
@@ -579,7 +579,7 @@ ADD
     CONSTRAINT FOREIGN KEY (id_usuario) REFERENCES usuario(id);
 
 ALTER TABLE
-    docentes
+    docente
 ADD
     CONSTRAINT FOREIGN KEY (ID_TURMA) REFERENCES turma(ID_TURMA);
 
@@ -626,7 +626,7 @@ SELECT
     NU_IDADE_REFERENCIA,
     TP_SEXO
 FROM
-    docentes;
+    docente;
 
 CREATE VIEW Num_Professores_Escolas_Ativas AS
 SELECT
@@ -643,7 +643,7 @@ SELECT
     COUNT(DISTINCT d.CO_PESSOA_FISICA) AS TOTAL_DOCENTES
 FROM
     escola e
-    JOIN docentes d ON d.CO_ENTIDADE = e.CO_ENTIDADE
+    JOIN docente d ON d.CO_ENTIDADE = e.CO_ENTIDADE
 WHERE
     TP_SITUACAO_FUNCIONAMENTO = 1;
 
