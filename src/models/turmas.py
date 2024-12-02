@@ -41,7 +41,7 @@ def get_class_by_school_id(school_name):
             """
 
             # Executa a query
-            cursor.execute(query, (school_name,))
+            cursor.execute(query, (str(school_name,)))
             return cursor.fetchall()
     finally:
         connection.close()
