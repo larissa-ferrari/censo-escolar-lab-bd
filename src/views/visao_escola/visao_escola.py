@@ -1,12 +1,12 @@
 import streamlit as st
-from src.controllers.schools import list_schools, list_school_dashboard
+from src.controllers.schools import list_schools, list_school_qtd_dashboard
 import pandas as pd
 
 st.title("Escolas da Cidade")
-st.subheader("Lista de Escolas da Cidade")
+st.subheader("Visão da Escola")
     
 with st.spinner("Carregando Escolas..."):
-    bookmarks = list_school_dashboard()
+    bookmarks = list_school_qtd_dashboard()
 
 df = pd.DataFrame(bookmarks)
 
@@ -16,11 +16,9 @@ else:
     df = df.rename(columns={
         "CO_ENTIDADE": "Código",
         "NO_ENTIDADE": "Nome",
-        "TP_SITUACAO_FUNCIONAMENTO": "Status de Funcionamento",
-        "CO_MUNICIPIO": "Município",
-        "TP_LOCALIZACAO": "Localização",
-        "TP_DEPENDENCIA": "Dependência",
-        "Níveis_Atendidos": "Níveis Atendidos",
+        "Docentes": "Qtd. Professores",
+        "Matricula": "Qtd. Alunos",
+        "Turmas": "Qtd. Turmas",
     })
 
     df = df.reset_index(drop=True)

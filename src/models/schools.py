@@ -65,7 +65,36 @@ def get_schools_dashboard():
             """
             cursor.execute(query)
             return cursor.fetchall()
-    except mysql.connector.Error as err:
-        print("Erro SQL:", err)
+    finally:
+        connection.close()
+
+def get_schools_qtd_dashboard():
+    connection = get_connection()
+    try:
+        with connection.cursor(dictionary=True) as cursor:
+            query = """
+                SELECT 
+                    e.CO_ENTIDADE, 
+                    e.NO_ENTIDADE,
+                    COUNT(t.ID_TURMA) AS Turmas,
+                    COUNT(d.CO_PESSOA_FISICA) AS Docentes,
+                    COUNT(m.ID_MATRICULA) AS Matricula
+                FROM 
+                    escola e
+                LEFT JOIN 
+                    turma t ON e.CO_ENTIDADE = t.CO_ENTIDADE
+                LEFT JOIN
+                    docentes d ON e.CO_ENTIDADE = d.CO_ENTIDADE
+                LEFT JOIN
+                    matricula m ON e.CO_ENTIDADE = m.CO_ENTIDADE
+                GROUP BY 
+                    e.CO_ENTIDADE, 
+                    e.NO_ENTIDADE,
+                    Turmas,
+                    Docentes,
+                    Matricula
+            """
+            cursor.execute(query)
+            return cursor.fetchall()
     finally:
         connection.close()
