@@ -84,7 +84,7 @@ def get_schools_qtd_dashboard():
                 LEFT JOIN 
                     turma t ON e.CO_ENTIDADE = t.CO_ENTIDADE
                 LEFT JOIN
-                    docentes d ON e.CO_ENTIDADE = d.CO_ENTIDADE
+                    docente d ON e.CO_ENTIDADE = d.CO_ENTIDADE
                 LEFT JOIN
                     matricula m ON e.CO_ENTIDADE = m.CO_ENTIDADE
                 GROUP BY 
@@ -96,7 +96,7 @@ def get_schools_qtd_dashboard():
     finally:
         connection.close()
 
-def get_teachers_students(school_id):
+def get_teachers_students(school_name):
     connection = get_connection()
     try:
         with connection.cursor(dictionary=True) as cursor:
@@ -104,18 +104,18 @@ def get_teachers_students(school_id):
             SELECT e.CO_ENTIDADE, e.NO_ENTIDADE, m.ID_MATRICULA AS person_code, 'Aluno' AS type
             FROM escola e
             LEFT JOIN matricula m ON e.CO_ENTIDADE = m.CO_ENTIDADE
-            WHERE e.CO_ENTIDADE = %s
+            WHERE e.NO_ENTIDADE = %s
 
             UNION ALL
 
             SELECT e.CO_ENTIDADE, e.NO_ENTIDADE, d.CO_PESSOA_FISICA AS person_code, 'Docente' AS type
             FROM escola e
-            LEFT JOIN docentes d ON e.CO_ENTIDADE = d.CO_ENTIDADE
-            WHERE e.CO_ENTIDADE = %s
+            LEFT JOIN docente d ON e.CO_ENTIDADE = d.CO_ENTIDADE
+            WHERE e.NO_ENTIDADE = %s
                 
             ORDER BY CO_ENTIDADE, type, person_code;
             """            
-            cursor.execute(query, (school_id, school_id))
+            cursor.execute(query, (str(school_name), str(school_name)))
             return cursor.fetchall()
     finally:
         connection.close()

@@ -47,6 +47,10 @@ else:
             st.Page("src/views/schools/school-list.py",
                     title="Listagem", icon=":material/school:")
         ],
+        "Turmas": [
+            st.Page("src/views/turmas/turmas-list.py",
+                    title="Listagem", icon=":material/school:")
+        ],
         "Perfil": [
             st.Page("src/views/logout.py", title="Sair",
                     icon=":material/logout:")
