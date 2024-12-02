@@ -6,7 +6,7 @@ db_config = {
     'host': 'localhost',
     'user': 'root',
     'password': 'root',
-    'database': 'censo_escolar_3',
+    'database': 'censo_escolar',
     'port': 3306,
 }
 

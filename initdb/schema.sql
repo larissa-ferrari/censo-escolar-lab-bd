@@ -661,64 +661,74 @@ ELSE RETURN FALSE;
 END IF;
 
 END $ $ DELIMITER;
+DELIMITER $$
 
-CREATE FUNCTION Etapa_Ensino(TP_ETAPA_ENSINO INT) RETURNS VARCHAR(255) DETERMINISTIC BEGIN CASE
-    TP_ETAPA_ENSINO
-    WHEN 1 THEN 'Educação Infantil - Creche'
-    WHEN 2 THEN 'Educação Infantil - Pré-escola'
-    WHEN 3 THEN 'Educação Infantil - Unificada'
-    WHEN 56 THEN 'Educação Infantil e Ensino Fundamental (8 e 9 anos) Multietapa'
-    WHEN 4 THEN 'Ensino Fundamental de 8 anos - 1ª Série'
-    WHEN 5 THEN 'Ensino Fundamental de 8 anos - 2ª Série'
-    WHEN 6 THEN 'Ensino Fundamental de 8 anos - 3ª Série'
-    WHEN 7 THEN 'Ensino Fundamental de 8 anos - 4ª Série'
-    WHEN 8 THEN 'Ensino Fundamental de 8 anos - 5ª Série'
-    WHEN 9 THEN 'Ensino Fundamental de 8 anos - 6ª Série'
-    WHEN 10 THEN 'Ensino Fundamental de 8 anos - 7ª Série'
-    WHEN 11 THEN 'Ensino Fundamental de 8 anos - 8ª Série'
-    WHEN 12 THEN 'Ensino Fundamental de 8 anos - Multi'
-    WHEN 13 THEN 'Ensino Fundamental de 8 anos - Correção de Fluxo'
-    WHEN 14 THEN 'Ensino Fundamental de 9 anos - 1º Ano'
-    WHEN 15 THEN 'Ensino Fundamental de 9 anos - 2º Ano'
-    WHEN 16 THEN 'Ensino Fundamental de 9 anos - 3º Ano'
-    WHEN 17 THEN 'Ensino Fundamental de 9 anos - 4º Ano'
-    WHEN 18 THEN 'Ensino Fundamental de 9 anos - 5º Ano'
-    WHEN 19 THEN 'Ensino Fundamental de 9 anos - 6º Ano'
-    WHEN 20 THEN 'Ensino Fundamental de 9 anos - 7º Ano'
-    WHEN 21 THEN 'Ensino Fundamental de 9 anos - 8º Ano'
-    WHEN 41 THEN 'Ensino Fundamental de 9 anos - 9º Ano'
-    WHEN 22 THEN 'Ensino Fundamental de 9 anos - Multi'
-    WHEN 23 THEN 'Ensino Fundamental de 9 anos - Correção de Fluxo'
-    WHEN 24 THEN 'Ensino Fundamental de 8 e 9 anos - Multi 8 e 9 anos'
-    WHEN 25 THEN 'Ensino Médio - 1ª Série'
-    WHEN 26 THEN 'Ensino Médio - 2ª Série'
-    WHEN 27 THEN 'Ensino Médio - 3ª Série'
-    WHEN 28 THEN 'Ensino Médio - 4ª Série'
-    WHEN 29 THEN 'Ensino Médio - Não Seriada'
-    WHEN 30 THEN 'Curso Técnico Integrado (Ensino Médio Integrado) 1ª Série'
-    WHEN 31 THEN 'Curso Técnico Integrado (Ensino Médio Integrado) 2ª Série'
-    WHEN 32 THEN 'Curso Técnico Integrado (Ensino Médio Integrado) 3ª Série'
-    WHEN 33 THEN 'Curso Técnico Integrado (Ensino Médio Integrado) 4ª Série'
-    WHEN 34 THEN 'Curso Técnico Integrado (Ensino Médio Integrado) Não Seriada'
-    WHEN 35 THEN 'Ensino Médio - Normal/Magistério 1ª Série'
-    WHEN 36 THEN 'Ensino Médio - Normal/Magistério 2ª Série'
-    WHEN 37 THEN 'Ensino Médio - Normal/Magistério 3ª Série'
-    WHEN 38 THEN 'Ensino Médio - Normal/Magistério 4ª Série'
-    WHEN 39 THEN 'Curso Técnico - Concomitante'
-    WHEN 40 THEN 'Curso Técnico - Subsequente'
-    WHEN 64 THEN 'Curso Técnico Misto (Concomitante e Subsequente)'
-    WHEN 68 THEN 'Curso FIC Concomitante'
-    WHEN 65 THEN 'EJA - Ensino Fundamental - Projovem Urbano'
-    WHEN 67 THEN 'Curso FIC integrado na modalidade EJA - Nível Médio'
-    WHEN 69 THEN 'EJA - Ensino Fundamental - Anos Iniciais'
-    WHEN 70 THEN 'EJA - Ensino Fundamental - Anos Finais'
-    WHEN 71 THEN 'EJA - Ensino Médio'
-    WHEN 72 THEN 'EJA - Ensino Fundamental - Anos Iniciais e Anos Finais'
-    WHEN 73 THEN 'Curso FIC integrado na modalidade EJA - Nível Fundamental (EJA integrada à Educação Profissional de Nível Fundamental)'
-    WHEN 74 THEN 'Curso Técnico Integrado na Modalidade EJA (EJA integrada à Educação Profissional de Nível Médio)'
-    ELSE 'Etapa de Ensino Desconhecida'
-END
-END $ $ DELIMITER;
+CREATE FUNCTION Etapa_Ensino(TP_ETAPA_ENSINO INT) 
+RETURNS VARCHAR(255) 
+DETERMINISTIC
+BEGIN
+    DECLARE resultado VARCHAR(255);
+
+    CASE TP_ETAPA_ENSINO
+        WHEN 1 THEN SET resultado = 'Educação Infantil - Creche';
+        WHEN 2 THEN SET resultado = 'Educação Infantil - Pré-escola';
+        WHEN 3 THEN SET resultado = 'Educação Infantil - Unificada';
+        WHEN 56 THEN SET resultado = 'Educação Infantil e Ensino Fundamental (8 e 9 anos) Multietapa';
+        WHEN 4 THEN SET resultado = 'Ensino Fundamental de 8 anos - 1ª Série';
+        WHEN 5 THEN SET resultado = 'Ensino Fundamental de 8 anos - 2ª Série';
+        WHEN 6 THEN SET resultado = 'Ensino Fundamental de 8 anos - 3ª Série';
+        WHEN 7 THEN SET resultado = 'Ensino Fundamental de 8 anos - 4ª Série';
+        WHEN 8 THEN SET resultado = 'Ensino Fundamental de 8 anos - 5ª Série';
+        WHEN 9 THEN SET resultado = 'Ensino Fundamental de 8 anos - 6ª Série';
+        WHEN 10 THEN SET resultado = 'Ensino Fundamental de 8 anos - 7ª Série';
+        WHEN 11 THEN SET resultado = 'Ensino Fundamental de 8 anos - 8ª Série';
+        WHEN 12 THEN SET resultado = 'Ensino Fundamental de 8 anos - Multi';
+        WHEN 13 THEN SET resultado = 'Ensino Fundamental de 8 anos - Correção de Fluxo';
+        WHEN 14 THEN SET resultado = 'Ensino Fundamental de 9 anos - 1º Ano';
+        WHEN 15 THEN SET resultado = 'Ensino Fundamental de 9 anos - 2º Ano';
+        WHEN 16 THEN SET resultado = 'Ensino Fundamental de 9 anos - 3º Ano';
+        WHEN 17 THEN SET resultado = 'Ensino Fundamental de 9 anos - 4º Ano';
+        WHEN 18 THEN SET resultado = 'Ensino Fundamental de 9 anos - 5º Ano';
+        WHEN 19 THEN SET resultado = 'Ensino Fundamental de 9 anos - 6º Ano';
+        WHEN 20 THEN SET resultado = 'Ensino Fundamental de 9 anos - 7º Ano';
+        WHEN 21 THEN SET resultado = 'Ensino Fundamental de 9 anos - 8º Ano';
+        WHEN 41 THEN SET resultado = 'Ensino Fundamental de 9 anos - 9º Ano';
+        WHEN 22 THEN SET resultado = 'Ensino Fundamental de 9 anos - Multi';
+        WHEN 23 THEN SET resultado = 'Ensino Fundamental de 9 anos - Correção de Fluxo';
+        WHEN 24 THEN SET resultado = 'Ensino Fundamental de 8 e 9 anos - Multi 8 e 9 anos';
+        WHEN 25 THEN SET resultado = 'Ensino Médio - 1ª Série';
+        WHEN 26 THEN SET resultado = 'Ensino Médio - 2ª Série';
+        WHEN 27 THEN SET resultado = 'Ensino Médio - 3ª Série';
+        WHEN 28 THEN SET resultado = 'Ensino Médio - 4ª Série';
+        WHEN 29 THEN SET resultado = 'Ensino Médio - Não Seriada';
+        WHEN 30 THEN SET resultado = 'Curso Técnico Integrado (Ensino Médio Integrado) 1ª Série';
+        WHEN 31 THEN SET resultado = 'Curso Técnico Integrado (Ensino Médio Integrado) 2ª Série';
+        WHEN 32 THEN SET resultado = 'Curso Técnico Integrado (Ensino Médio Integrado) 3ª Série';
+        WHEN 33 THEN SET resultado = 'Curso Técnico Integrado (Ensino Médio Integrado) 4ª Série';
+        WHEN 34 THEN SET resultado = 'Curso Técnico Integrado (Ensino Médio Integrado) Não Seriada';
+        WHEN 35 THEN SET resultado = 'Ensino Médio - Normal/Magistério 1ª Série';
+        WHEN 36 THEN SET resultado = 'Ensino Médio - Normal/Magistério 2ª Série';
+        WHEN 37 THEN SET resultado = 'Ensino Médio - Normal/Magistério 3ª Série';
+        WHEN 38 THEN SET resultado = 'Ensino Médio - Normal/Magistério 4ª Série';
+        WHEN 39 THEN SET resultado = 'Curso Técnico - Concomitante';
+        WHEN 40 THEN SET resultado = 'Curso Técnico - Subsequente';
+        WHEN 64 THEN SET resultado = 'Curso Técnico Misto (Concomitante e Subsequente)';
+        WHEN 68 THEN SET resultado = 'Curso FIC Concomitante';
+        WHEN 65 THEN SET resultado = 'EJA - Ensino Fundamental - Projovem Urbano';
+        WHEN 67 THEN SET resultado = 'Curso FIC integrado na modalidade EJA - Nível Médio';
+        WHEN 69 THEN SET resultado = 'EJA - Ensino Fundamental - Anos Iniciais';
+        WHEN 70 THEN SET resultado = 'EJA - Ensino Fundamental - Anos Finais';
+        WHEN 71 THEN SET resultado = 'EJA - Ensino Médio';
+        WHEN 72 THEN SET resultado = 'EJA - Ensino Fundamental - Anos Iniciais e Anos Finais';
+        WHEN 73 THEN SET resultado = 'Curso FIC integrado na modalidade EJA - Nível Fundamental (EJA integrada à Educação Profissional de Nível Fundamental)';
+        WHEN 74 THEN SET resultado = 'Curso Técnico Integrado na Modalidade EJA (EJA integrada à Educação Profissional de Nível Médio)';
+        ELSE SET resultado = 'Etapa de Ensino Desconhecida';
+    END CASE;
+
+    RETURN resultado;
+END$$
+
+DELIMITER;
 
 DELIMITER $ $ CREATE PROCEDURE Listar_Escolas(offset_param INT, limit_param INT) BEGIN
 SELECT
