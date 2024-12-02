@@ -21,9 +21,7 @@ else:
             st.Page("src/views/visao_escola/visao_escola.py", title="Visão da Escola",
                     icon=":material/dashboard:"),
             st.Page("src/views/visao_turmas/visao_turmas.py", title="Visão das Turmas",
-                    icon=":material/dashboard:"),
-            st.Page("src/views/visao_matricula/visao_matricula.py", title="Visão das Matriculas",
-                    icon=":material/dashboard:"),                    
+                    icon=":material/dashboard:"),            
             st.Page("src/views/students_level/students_level.py", title="Alunos por Nível",
                 icon=":material/dashboard:"),
             st.Page("src/views/schools/teacher_student.py", title="Professores e Alunos da Escola",
@@ -49,6 +47,11 @@ else:
             st.Page("src/views/schools/school-list.py",
                     title="Listagem", icon=":material/school:")
         ],
+
+        "Matrículas": [
+            st.Page("src/views/student/student-list.py",
+                    title="Listagem", icon=":material/school:")
+        ],            
         "Turmas": [
             st.Page("src/views/turmas/turmas-list.py",
                     title="Listagem", icon=":material/school:")
