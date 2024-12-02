@@ -94,14 +94,26 @@ def get_schools_qtd_dashboard():
     finally:
         connection.close()
 
-def get_teachers_students(id_school):
+def get_teachers_students(school_id):
     connection = get_connection()
     try:
         with connection.cursor(dictionary=True) as cursor:
             query = """
-                SELECT;
-            """
-            cursor.execute(query)
+            SELECT e.CO_ENTIDADE, e.NO_ENTIDADE, m.ID_MATRICULA AS person_code, 'Aluno' AS type
+            FROM escola e
+            LEFT JOIN matricula m ON e.CO_ENTIDADE = m.CO_ENTIDADE
+            WHERE e.CO_ENTIDADE = %s
+
+            UNION ALL
+
+            SELECT e.CO_ENTIDADE, e.NO_ENTIDADE, d.CO_PESSOA_FISICA AS person_code, 'Docente' AS type
+            FROM escola e
+            LEFT JOIN docentes d ON e.CO_ENTIDADE = d.CO_ENTIDADE
+            WHERE e.CO_ENTIDADE = %s
+                
+            ORDER BY CO_ENTIDADE, type, person_code;
+            """            
+            cursor.execute(query, (school_id, school_id))
             return cursor.fetchall()
     finally:
         connection.close()
