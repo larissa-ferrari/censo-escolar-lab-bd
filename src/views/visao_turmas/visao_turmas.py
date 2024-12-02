@@ -66,9 +66,9 @@ if not schools_df.empty:
 
         df['Disciplinas'] = df.apply(get_disciplines, axis=1)
 
-        df = df.reset_index(drop=True)
-
-        st.dataframe(df[['Código', 'Nome', 'Disciplinas']], use_container_width=True)
+        # Aplicando a quebra de linha na coluna 'Disciplinas'
+        st.dataframe(df[['Código', 'Nome', 'Disciplinas']].style.set_properties(subset=['Disciplinas'], **{'white-space': 'pre-wrap'}), use_container_width=True)
+        
     else:
         st.info(f"Nenhuma Turma Encontrada para a Escola {selected_school}")
 else:
