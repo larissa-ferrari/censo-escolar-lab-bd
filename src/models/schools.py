@@ -95,3 +95,15 @@ def get_schools_qtd_dashboard():
             return cursor.fetchall()
     finally:
         connection.close()
+
+def get_teachers_students(id_school):
+    connection = get_connection()
+    try:
+        with connection.cursor(dictionary=True) as cursor:
+            query = """
+                SELECT;
+            """
+            cursor.execute(query)
+            return cursor.fetchall()
+    finally:
+        connection.close()

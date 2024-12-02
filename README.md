@@ -156,7 +156,7 @@ Este projeto foi desenvolvido utilizando a arquitetura MVC (Model-View-Controlle
 
 - **Professores e Alunos da Escola:** Selecionando a escola, é listado os professores e alunos pertencentes à escola selecionada
 
-- **Alunos por Etapa de Ensino:** Listagem da quantidade de alunos pertencentes a cada etapa de ensino, mostrando o código da pessoa e o tipo (aluno ou docente).
+- **Alunos por Etapa de Ensino:** Listagem da quantidade de alunos pertencentes a cada etapa de ensino, mostrando a etapa junto com a quantidade.
 
 <!-- GETTING STARTED -->
 
@@ -186,24 +186,25 @@ Este projeto foi desenvolvido utilizando a arquitetura MVC (Model-View-Controlle
   ```
 - Inicialize a aplicação com o comando `streamlit run app.py`
 - Acesse com as credenciais cadastradas no banco
+
 1. Clonar o repositório na máquina local
 2. Criar um banco de dados local com o banco
 3. No banco de dados, rode o arquivo `schema.sql`, e depois o arquivo `seed.sql`. Isso fará com que o banco seja criado e populado localmente.
 4. Após isso, execute o arquivo `execute_script.py` a partir do comando `python .\execute_script.py`. Isso fara com o banco seja populado mais os arquivos `.csv`.
 5. Criar um ambiente virtual com o comando `python -m venv venv`
-  5.1 O comando pode ser diferente a depender da versão do python ou SO utilizado
+   5.1 O comando pode ser diferente a depender da versão do python ou SO utilizado
 6. Instalar as dependências necessárias, presentes dentro do arquivo `.\requirements.txt`, com o comando `pip install -r .\requirements.txt`
 7. Na raiz do projeto, crie a pasta `.streamlit`, e dentro dela crie o arquivo `secrets.toml`
 8. Preencha o arquivo com o seguinte código:
-    ```
-      /* Preencha com os dados do banco de dados local */
-      [db_credentials]
-      user=""
-      password=""
-      host=""
-      db="censo_escolar"
-      port=
-    ```
+   ```
+     /* Preencha com os dados do banco de dados local */
+     [db_credentials]
+     user=""
+     password=""
+     host=""
+     db="censo_escolar"
+     port=
+   ```
 9. Inicialize a aplicação com o comando `streamlit run app.py`
 10. Acesse com as credenciais cadastradas no banco
 
