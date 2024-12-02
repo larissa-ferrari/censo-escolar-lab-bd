@@ -16,7 +16,9 @@ else:
         "Dashboard": [
             st.Page("src/views/dashboards.py", title="Dashboard",
                     icon=":material/dashboard:", default=True),
-            st.Page("src/views/escola_cidade/escola_cidade.py", title="Escolas por Cidade",
+            st.Page("src/views/escola_cidade/escola_cidade.py", title="Escolas da Cidade",
+                    icon=":material/dashboard:"),
+            st.Page("src/views/visao_escola/visao_escola.py", title="Visao da Escola",
                     icon=":material/dashboard:"),
         ],
         "Usuários": [
