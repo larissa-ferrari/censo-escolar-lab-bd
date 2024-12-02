@@ -13,5 +13,5 @@ def list_school_qtd_dashboard():
     return get_schools_qtd_dashboard()
 
 # Função para listar os professores e alunos
-def list_teachers_students(id_school):
-    return get_teachers_students(id_school)
+def list_teachers_students(school_name):
+    return get_teachers_students(school_name)
