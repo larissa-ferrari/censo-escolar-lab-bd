@@ -90,9 +90,6 @@ def get_schools_qtd_dashboard():
                 GROUP BY 
                     e.CO_ENTIDADE, 
                     e.NO_ENTIDADE,
-                    Turmas,
-                    Docentes,
-                    Matricula
             """
             cursor.execute(query)
             return cursor.fetchall()
