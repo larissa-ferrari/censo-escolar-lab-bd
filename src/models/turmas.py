@@ -35,14 +35,12 @@ def get_class_by_school_id(school_name):
                     t.IN_DISC_LIBRAS,
                     t.IN_DISC_PEDAGOGICAS,
                     t.IN_DISC_OUTRAS
-                FROM turmas
-                JOIN escolas ON t.CO_ENTIDADE = escolas.CO_ENTIDADE
-                WHERE escolas.NO_ENTIDADE = %s
+                FROM turmas t
+                JOIN escolas e ON t.CO_ENTIDADE = e.CO_ENTIDADE
+                WHERE e.NO_ENTIDADE = %s
             """
 
             # Executa a query
-            
-            print(f"Query: {query}")
             cursor.execute(query, (str(school_name),))
 
             return cursor.fetchall()

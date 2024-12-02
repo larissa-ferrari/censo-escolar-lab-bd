@@ -19,9 +19,7 @@ if not schools_df.empty:
     )
 
     with st.spinner("Carregando Turmas..."):
-        print(f"selected_school: {selected_school}")
         filtered_turmas = list_class(str(selected_school))
-
 
     if filtered_turmas:
         df = pd.DataFrame(filtered_turmas)
@@ -29,11 +27,10 @@ if not schools_df.empty:
             "ID_TURMA": "Código",
             "NO_TURMA": "Nome"
         })
-
         df = df.reset_index(drop=True)
 
         st.dataframe(df, use_container_width=True)
     else:
-        st.info(f"Nenhuma Turma Encontrada para a Escola com Código {selected_co_entidade}")
+        st.info(f"Nenhuma Turma Encontrada para a Escola {selected_school}")
 else:
     st.info("Nenhuma Escola Encontrada!")
