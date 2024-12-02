@@ -1,5 +1,5 @@
 import streamlit as st
-from src.controllers.schools import list_schools, list_school_qtd_dashboard
+from src.controllers.schools import list_school_qtd_dashboard
 import pandas as pd
 
 st.title("Escolas da Cidade")
