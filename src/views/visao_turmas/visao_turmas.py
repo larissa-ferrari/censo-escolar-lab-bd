@@ -14,14 +14,12 @@ schools_df = pd.DataFrame(schools)
 if not schools_df.empty:
     selected_school = st.selectbox(
         "Selecione a Escola", 
-        options=[f"{row['NO_ENTIDADE']} ({row['CO_ENTIDADE']})" for index, row in schools_df.iterrows()],
+        options=schools_df['NO_ENTIDADE'].unique(),
         index=0
     )
 
-    selected_co_entidade = int(selected_school.split('(')[-1].strip(')'))
-
     with st.spinner("Carregando Turmas..."):
-        filtered_turmas = list_class(filters={"CO_ENTIDADE": selected_co_entidade})
+        filtered_turmas = list_class(selected_school)
 
     if filtered_turmas:
         df = pd.DataFrame(filtered_turmas)
