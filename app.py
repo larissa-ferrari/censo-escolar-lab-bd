@@ -20,6 +20,8 @@ else:
                     icon=":material/dashboard:"),
             st.Page("src/views/visao_escola/visao_escola.py", title="Visao da Escola",
                     icon=":material/dashboard:"),
+            st.Page("src/views/visao_turmas/visao_turmas.py", title="Visao das Turmas",
+                    icon=":material/dashboard:"),
             st.Page("src/views/students_level/students_level.py", title="Alunos por Nível",
                 icon=":material/dashboard:"),
             st.Page("src/views/schools/teacher_student.py", title="Professores e Alunos da Escola",
