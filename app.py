@@ -18,12 +18,12 @@ else:
                     icon=":material/dashboard:", default=True),
             st.Page("src/views/escola_cidade/escola_cidade.py", title="Escolas da Cidade",
                     icon=":material/dashboard:"),
-            st.Page("src/views/visao_escola/visao_escola.spy", title="Visao da Escola",
+            st.Page("src/views/visao_escola/visao_escola.spy", title="Visão da Escola",
                     icon=":material/dashboard:"),
-            st.Page("src/views/visao_escola/visao_escola_docente.py", title="Visao da Escola (com docentes)",
+            st.Page("src/views/visao_escola/visao_escola_docente.py", title="Visão da Escola (com docentes)",
                     icon=":material/dashboard:"),
-            st.Page("src/views/visao_turmas/visao_turmas.py", title="Visao das Turmas",
-                    icon=":material/dashboard:"),
+            st.Page("src/views/visao_turmas/visao_turmas.py", title="Visão das Turmas",
+                    icon=":material/dashboard:"),            
             st.Page("src/views/students_level/students_level.py", title="Alunos por Nível",
                 icon=":material/dashboard:"),
             st.Page("src/views/schools/teacher_student.py", title="Professores e Alunos da Escola",
@@ -49,6 +49,11 @@ else:
             st.Page("src/views/schools/school-list.py",
                     title="Listagem", icon=":material/school:")
         ],
+
+        "Matrículas": [
+            st.Page("src/views/student/student-list.py",
+                    title="Listagem", icon=":material/school:")
+        ],            
         "Turmas": [
             st.Page("src/views/turmas/turmas-list.py",
                     title="Listagem", icon=":material/school:")
